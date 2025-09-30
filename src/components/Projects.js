@@ -14,8 +14,8 @@ const Projects = () => {
       technologies: ['React.js', 'CSS3', 'JavaScript', 'HTML5'],
       status: 'Completed',
       image: 'images/project1.jpg',
-      liveLink: 'https://your-portfolio-link.netlify.app',
-      githubLink: 'https://github.com/Technolity/portfolio',
+      liveLink: 'https://portfolio-3-5g3ut2o2v-meris-1ddb12db.vercel.app',
+      githubLink: 'https://github.com/Technolity/portfolio.1',
       features: ['Responsive Design', 'Dark Theme', 'Smooth Animations', 'Contact Form']
     },
     {
@@ -238,3 +238,4 @@ const Projects = () => {
 };
 
 export default Projects;
+

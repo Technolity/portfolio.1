@@ -13,9 +13,9 @@ const Projects = () => {
       category: 'web',
       technologies: ['React.js', 'CSS3', 'JavaScript', 'HTML5'],
       status: 'Completed',
-      image: 'images/project1.png',
-      liveLink: 'https://portfolio-1-471ij2c9e-meris-1ddb12db.vercel.app/', // Replace with your actual portfolio live link
-      githubLink: 'https://github.com/Technolity/portfolio.1', // Replace with your actual portfolio GitHub link
+      image: 'images/project1.jpg',
+      liveLink: 'https://portfolio-1-91aj-o0m9vonkx-meris-1ddb12db.vercel.app',
+      githubLink: 'https://github.com/Technolity/portfolio.1',
       features: ['Responsive Design', 'Dark Theme', 'Smooth Animations', 'Contact Form']
     },
     {
@@ -24,22 +24,22 @@ const Projects = () => {
       description: 'Real-time cryptocurrency tracking application with price alerts, portfolio management, and market analysis features. Fetches live data from multiple APIs.',
       category: 'web',
       technologies: ['React.js', 'API Integration', 'Chart.js', 'Firebase'],
-      status: 'In Progress',
+      status: 'Completed',
       image: 'images/project2.png',
-      liveLink: 'https://warisrawa-crypto-tracker.netlify.app', // Replace with your actual crypto tracker live link
-      githubLink: 'https://github.com/Technolity/crypto-tracker', // Replace with your actual crypto tracker GitHub link
+      liveLink: 'https://crypto-tracker-indol-alpha.vercel.app',
+      githubLink: 'https://github.com/Technolity/Crypto-Tracker',
       features: ['Real-time Data', 'Price Alerts', 'Portfolio Tracking', 'Market Analysis']
     },
     {
       id: 3,
-      title: 'Architectural Client Website',
+      title: 'Architectural Website Design',
       description: 'Professional website for architectural firm featuring project galleries, client testimonials, and service descriptions. Built with modern UI/UX principles.',
       category: 'web',
       technologies: ['HTML5', 'CSS3', 'JavaScript', 'PHP'],
       status: 'Completed',
       image: 'images/project3.png',
-      liveLink: 'https://warisrawa-architecture.netlify.app', // Replace with your actual architecture website live link
-      githubLink: 'https://github.com/Technolity/architecture-website', // Replace with your actual architecture website GitHub link
+      liveLink: 'https://crypto-tracker-aupb.vercel.app',
+      githubLink: 'https://github.com/Technolity/stellar_spaces',
       features: ['Project Gallery', 'Client Testimonials', 'Service Pages', 'Contact System']
     },
     {
@@ -50,8 +50,8 @@ const Projects = () => {
       technologies: ['Java', 'Swing', 'OOP', 'File I/O'],
       status: 'Completed',
       image: 'images/project4.png',
-      liveLink: '#', // Desktop apps might not have live links
-      githubLink: 'https://github.com/Technolity/java-projects', // Replace with your actual Java projects GitHub link
+      liveLink: '#',
+      githubLink: 'https://github.com/Technolity/java-projects',
       features: ['GUI Development', 'File Management', 'OOP Principles', 'User Interface']
     },
     {
@@ -62,8 +62,8 @@ const Projects = () => {
       technologies: ['C Programming', 'Data Structures', 'Algorithms', 'System Programming'],
       status: 'Completed',
       image: 'images/project5.png',
-      liveLink: '#', // C programs might not have live links
-      githubLink: 'https://github.com/Technolity/c-projects', // Replace with your actual C projects GitHub link
+      liveLink: '#',
+      githubLink: 'https://github.com/Technolity/c-projects',
       features: ['Data Structures', 'Sorting Algorithms', 'Problem Solving', 'System Programming']
     },
     {
@@ -74,8 +74,8 @@ const Projects = () => {
       technologies: ['Python', 'TensorFlow', 'Pandas', 'NumPy'],
       status: 'Learning',
       image: 'images/project6.png',
-      liveLink: '#', // AI/ML projects might not have live links
-      githubLink: 'https://github.com/Technolity/ai-ml-projects', // Replace with your actual AI/ML projects GitHub link
+      liveLink: '#',
+      githubLink: 'https://github.com/Technolity/ai-ml-projects',
       features: ['Data Analysis', 'Prediction Models', 'Neural Networks', 'Machine Learning']
     }
   ];
@@ -90,6 +90,27 @@ const Projects = () => {
   const filteredProjects = activeFilter === 'all' 
     ? projects 
     : projects.filter(project => project.category === activeFilter);
+
+  // Function to handle button clicks with animation
+  const handleButtonClick = (url, event) => {
+    // Add click animation
+    const button = event.currentTarget;
+    button.classList.add('clicked');
+    
+    setTimeout(() => {
+      button.classList.remove('clicked');
+    }, 300);
+
+    // Handle disabled links
+    if (url === '#' || !url) {
+      event.preventDefault();
+      alert('This project is not yet deployed. Check the GitHub repository for code.');
+      return false;
+    }
+    
+    // For valid links, let the default behavior happen (open in new tab)
+    return true;
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -167,12 +188,9 @@ const Projects = () => {
                         <a 
                           href={project.liveLink} 
                           className={`project-link primary ${project.liveLink === '#' ? 'disabled' : ''}`}
-                          target="_blank"
+                          target={project.liveLink !== '#' ? "_blank" : "_self"}
                           rel="noopener noreferrer"
-                          onClick={project.liveLink === '#' ? (e) => {
-                            e.preventDefault();
-                            alert('This project is not yet deployed. Check the GitHub repository for code.');
-                          } : undefined}
+                          onClick={(e) => handleButtonClick(project.liveLink, e)}
                         >
                           <span>{project.liveLink === '#' ? 'Coming Soon' : 'Live Demo'}</span>
                           <div className="link-arrow">
@@ -184,6 +202,7 @@ const Projects = () => {
                           className="project-link secondary"
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={(e) => handleButtonClick(project.githubLink, e)}
                         >
                           <span>View Code</span>
                           <div className="link-arrow">{"</>"}</div>
@@ -220,7 +239,11 @@ const Projects = () => {
         
         <div className="projects-cta">
           <p className="cta-text">Interested in collaborating or seeing more projects?</p>
-          <a href="#contact" className="cyber-btn primary large">
+          <a 
+            href="#contact" 
+            className="cyber-btn primary large"
+            onClick={(e) => handleButtonClick('#contact', e)}
+          >
             <span>Let's Work Together</span>
           </a>
         </div>

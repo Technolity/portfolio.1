@@ -1,0 +1,345 @@
+.cyber-footer {
+    background: rgba(5, 5, 5, 0.95);
+    border-top: 1px solid rgba(32, 201, 201, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 49%, rgba(32, 201, 201, 0.02) 50%, transparent 51%), linear-gradient(transparent 49%, rgba(32, 201, 201, 0.02) 50%, transparent 51%);
+    background-size: 40px 40px;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.footer-content {
+    padding: 4rem 0 3rem;
+}
+
+.footer-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-brand {
+    text-align: left;
+}
+
+.footer-logo {
+    margin-bottom: 1.5rem;
+}
+
+.pixel-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #20c9c9;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.pixel-profession {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.footer-tagline {
+    font-size: 1.1rem;
+    color: #b0b0b0;
+    line-height: 1.6;
+    max-width: 500px;
+}
+
+.footer-cta {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(32, 201, 201, 0.05);
+    border: 1px solid rgba(32, 201, 201, 0.2);
+    border-radius: 15px;
+}
+
+.footer-cta h3 {
+    font-family: 'Orbitron', monospace;
+    color: #e0e0e0;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-cta p {
+    color: #b0b0b0;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.footer-navigation {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+.nav-section h4 {
+    font-family: 'Share Tech Mono', monospace;
+    color: #20c9c9;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.footer-link {
+    color: #b0b0b0;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    position: relative;
+    padding-left: 0;
+}
+
+.footer-link::before {
+    content: '▸';
+    color: #20c9c9;
+    position: absolute;
+    left: -15px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #20c9c9;
+    padding-left: 15px;
+}
+
+.footer-link:hover::before {
+    opacity: 1;
+    left: 0;
+}
+
+.tech-stack-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-stack-item {
+    background: rgba(255, 255, 255, 0.05);
+    color: #b0b0b0;
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.tech-stack-item:hover {
+    background: rgba(32, 201, 201, 0.1);
+    color: #20c9c9;
+    border-color: rgba(32, 201, 201, 0.3);
+    transform: translateY(-2px);
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #b0b0b0;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+.social-link:hover {
+    background: rgba(32, 201, 201, 0.1);
+    color: #20c9c9;
+    transform: translateX(5px);
+}
+
+.social-icon {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+.social-name {
+    font-family: 'Share Tech Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.copyright {
+    font-family: 'Share Tech Mono', monospace;
+    color: #b0b0b0;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    font-family: 'Share Tech Mono', monospace;
+    color: #20c9c9;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: rgba(32, 201, 201, 0.1);
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    border: 1px solid rgba(32, 201, 201, 0.2);
+}
+
+.terminal-output {
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid rgba(32, 201, 201, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.output-line {
+    margin-bottom: 0.5rem;
+    color: #e0e0e0;
+    font-size: 0.9rem;
+}
+
+.output-line .prompt {
+    color: #20c9c9;
+}
+
+.output-line.success {
+    color: #28ca42;
+    margin-left: 1rem;
+}
+
+.cursor-blink {
+    animation: blink 1s infinite;
+    color: #20c9c9;
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 968px) {
+    .footer-main {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+    .footer-brand {
+        text-align: center;
+    }
+    .footer-tagline {
+        margin: 0 auto;
+    }
+    .footer-navigation {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+    .nav-links {
+        align-items: center;
+    }
+    .tech-stack-grid {
+        justify-content: center;
+    }
+    .social-links {
+        align-items: center;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-meta {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-content {
+        padding: 3rem 0 2rem;
+    }
+    .pixel-name {
+        font-size: 1.5rem;
+    }
+    .pixel-profession {
+        font-size: 0.7rem;
+    }
+    .footer-cta {
+        padding: 1.5rem;
+    }
+    .footer-cta h3 {
+        font-size: 1.1rem;
+    }
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    .cyber-btn {
+        width: 200px;
+    }
+    .footer-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    .terminal-output {
+        padding: 1rem;
+    }
+    .output-line {
+        font-size: 0.8rem;
+    }
+}

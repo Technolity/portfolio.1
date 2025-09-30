@@ -14,8 +14,8 @@ const Projects = () => {
       technologies: ['React.js', 'CSS3', 'JavaScript', 'HTML5'],
       status: 'Completed',
       image: 'images/project1.jpg',
-      liveLink: 'https://portfolio-1-91aj-o0m9vonkx-meris-1ddb12db.vercel.app',
-      githubLink: 'https://github.com/Technolity/portfolio.1',
+      liveLink: 'https://your-portfolio-link.netlify.app',
+      githubLink: 'https://github.com/Technolity/portfolio',
       features: ['Responsive Design', 'Dark Theme', 'Smooth Animations', 'Contact Form']
     },
     {
@@ -24,21 +24,21 @@ const Projects = () => {
       description: 'Real-time cryptocurrency tracking application with price alerts, portfolio management, and market analysis features. Fetches live data from multiple APIs.',
       category: 'web',
       technologies: ['React.js', 'API Integration', 'Chart.js', 'Firebase'],
-      status: 'Completed',
+      status: 'In Progress',
       image: 'images/project2.png',
       liveLink: 'https://crypto-tracker-indol-alpha.vercel.app',
-      githubLink: 'https://github.com/Technolity/Crypto-Tracker',
+      githubLink: 'https://github.com/Technolity/crypto-tracker',
       features: ['Real-time Data', 'Price Alerts', 'Portfolio Tracking', 'Market Analysis']
     },
     {
       id: 3,
-      title: 'Architectural Website Design',
+      title: 'Architectural Client Website',
       description: 'Professional website for architectural firm featuring project galleries, client testimonials, and service descriptions. Built with modern UI/UX principles.',
       category: 'web',
       technologies: ['HTML5', 'CSS3', 'JavaScript', 'PHP'],
       status: 'Completed',
       image: 'images/project3.png',
-      liveLink: 'https://crypto-tracker-aupb.vercel.app',
+      liveLink: 'https://crypto-tracker-aupb.vercel.app/',
       githubLink: 'https://github.com/Technolity/stellar_spaces',
       features: ['Project Gallery', 'Client Testimonials', 'Service Pages', 'Contact System']
     },
@@ -91,25 +91,14 @@ const Projects = () => {
     ? projects 
     : projects.filter(project => project.category === activeFilter);
 
-  // Function to handle button clicks with animation
-  const handleButtonClick = (url, event) => {
-    // Add click animation
-    const button = event.currentTarget;
-    button.classList.add('clicked');
-    
-    setTimeout(() => {
-      button.classList.remove('clicked');
-    }, 300);
-
-    // Handle disabled links
+  // Fixed function to handle link clicks
+  const handleLinkClick = (url, event) => {
+    // Only prevent default if the URL is '#' or empty
     if (url === '#' || !url) {
       event.preventDefault();
       alert('This project is not yet deployed. Check the GitHub repository for code.');
-      return false;
     }
-    
-    // For valid links, let the default behavior happen (open in new tab)
-    return true;
+    // Otherwise, let the link work normally (it will open in new tab)
   };
 
   useEffect(() => {
@@ -188,9 +177,9 @@ const Projects = () => {
                         <a 
                           href={project.liveLink} 
                           className={`project-link primary ${project.liveLink === '#' ? 'disabled' : ''}`}
-                          target={project.liveLink !== '#' ? "_blank" : "_self"}
+                          target="_blank"
                           rel="noopener noreferrer"
-                          onClick={(e) => handleButtonClick(project.liveLink, e)}
+                          onClick={(e) => handleLinkClick(project.liveLink, e)}
                         >
                           <span>{project.liveLink === '#' ? 'Coming Soon' : 'Live Demo'}</span>
                           <div className="link-arrow">
@@ -202,7 +191,7 @@ const Projects = () => {
                           className="project-link secondary"
                           target="_blank"
                           rel="noopener noreferrer"
-                          onClick={(e) => handleButtonClick(project.githubLink, e)}
+                          onClick={(e) => handleLinkClick(project.githubLink, e)}
                         >
                           <span>View Code</span>
                           <div className="link-arrow">{"</>"}</div>
@@ -239,11 +228,7 @@ const Projects = () => {
         
         <div className="projects-cta">
           <p className="cta-text">Interested in collaborating or seeing more projects?</p>
-          <a 
-            href="#contact" 
-            className="cyber-btn primary large"
-            onClick={(e) => handleButtonClick('#contact', e)}
-          >
+          <a href="#contact" className="cyber-btn primary large">
             <span>Let's Work Together</span>
           </a>
         </div>

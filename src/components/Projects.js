@@ -13,9 +13,9 @@ const Projects = () => {
       category: 'web',
       technologies: ['React.js', 'CSS3', 'JavaScript', 'HTML5'],
       status: 'Completed',
-      image: 'images/project1.jpg',
-      liveLink: 'https://your-portfolio-link.netlify.app', // Add your actual live link
-      githubLink: 'https://github.com/Technolity/portfolio', // Add your actual GitHub link
+      image: 'images/project1.png',
+      liveLink: 'https://portfolio-1-471ij2c9e-meris-1ddb12db.vercel.app/', // Replace with your actual portfolio live link
+      githubLink: 'https://github.com/Technolity/portfolio.1', // Replace with your actual portfolio GitHub link
       features: ['Responsive Design', 'Dark Theme', 'Smooth Animations', 'Contact Form']
     },
     {
@@ -26,8 +26,8 @@ const Projects = () => {
       technologies: ['React.js', 'API Integration', 'Chart.js', 'Firebase'],
       status: 'In Progress',
       image: 'images/project2.png',
-      liveLink: 'https://crypto-tracker-indol-alpha.vercel.app', // Add your actual live link
-      githubLink: 'https://github.com/Technolity/crypto-tracker', // Add your actual GitHub link
+      liveLink: 'https://warisrawa-crypto-tracker.netlify.app', // Replace with your actual crypto tracker live link
+      githubLink: 'https://github.com/Technolity/crypto-tracker', // Replace with your actual crypto tracker GitHub link
       features: ['Real-time Data', 'Price Alerts', 'Portfolio Tracking', 'Market Analysis']
     },
     {
@@ -38,8 +38,8 @@ const Projects = () => {
       technologies: ['HTML5', 'CSS3', 'JavaScript', 'PHP'],
       status: 'Completed',
       image: 'images/project3.png',
-      liveLink: 'https://crypto-tracker-aupb.vercel.app/', // Add your actual live link
-      githubLink: 'https://github.com/Technolity/stellar_spaces', // Add your actual GitHub link
+      liveLink: 'https://warisrawa-architecture.netlify.app', // Replace with your actual architecture website live link
+      githubLink: 'https://github.com/Technolity/architecture-website', // Replace with your actual architecture website GitHub link
       features: ['Project Gallery', 'Client Testimonials', 'Service Pages', 'Contact System']
     },
     {
@@ -51,7 +51,7 @@ const Projects = () => {
       status: 'Completed',
       image: 'images/project4.png',
       liveLink: '#', // Desktop apps might not have live links
-      githubLink: 'https://github.com/Technolity/java-projects', // Add your actual GitHub link
+      githubLink: 'https://github.com/Technolity/java-projects', // Replace with your actual Java projects GitHub link
       features: ['GUI Development', 'File Management', 'OOP Principles', 'User Interface']
     },
     {
@@ -63,7 +63,7 @@ const Projects = () => {
       status: 'Completed',
       image: 'images/project5.png',
       liveLink: '#', // C programs might not have live links
-      githubLink: 'https://github.com/Technolity/c-projects', // Add your actual GitHub link
+      githubLink: 'https://github.com/Technolity/c-projects', // Replace with your actual C projects GitHub link
       features: ['Data Structures', 'Sorting Algorithms', 'Problem Solving', 'System Programming']
     },
     {
@@ -75,7 +75,7 @@ const Projects = () => {
       status: 'Learning',
       image: 'images/project6.png',
       liveLink: '#', // AI/ML projects might not have live links
-      githubLink: 'https://github.com/Technolity/ai-ml-projects', // Add your actual GitHub link
+      githubLink: 'https://github.com/Technolity/ai-ml-projects', // Replace with your actual AI/ML projects GitHub link
       features: ['Data Analysis', 'Prediction Models', 'Neural Networks', 'Machine Learning']
     }
   ];
@@ -90,15 +90,6 @@ const Projects = () => {
   const filteredProjects = activeFilter === 'all' 
     ? projects 
     : projects.filter(project => project.category === activeFilter);
-
-  // Function to handle link clicks
-  const handleLinkClick = (url, event) => {
-    if (url === '#' || !url) {
-      event.preventDefault();
-      alert('This project is not yet deployed. Check the GitHub repository for code.');
-    }
-    // For external links, they will open in new tab automatically due to target="_blank"
-  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -178,7 +169,10 @@ const Projects = () => {
                           className={`project-link primary ${project.liveLink === '#' ? 'disabled' : ''}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          onClick={(e) => handleLinkClick(project.liveLink, e)}
+                          onClick={project.liveLink === '#' ? (e) => {
+                            e.preventDefault();
+                            alert('This project is not yet deployed. Check the GitHub repository for code.');
+                          } : undefined}
                         >
                           <span>{project.liveLink === '#' ? 'Coming Soon' : 'Live Demo'}</span>
                           <div className="link-arrow">
@@ -190,7 +184,6 @@ const Projects = () => {
                           className="project-link secondary"
                           target="_blank"
                           rel="noopener noreferrer"
-                          onClick={(e) => handleLinkClick(project.githubLink, e)}
                         >
                           <span>View Code</span>
                           <div className="link-arrow">{"</>"}</div>

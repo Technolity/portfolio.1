@@ -25,6 +25,12 @@ const About = () => {
 
   return (
     <section id="about" className="cyber-about section" ref={aboutRef}>
+      <div className="galaxy-background">
+        <div className="stars"></div>
+        <div className="stars2"></div>
+        <div className="stars3"></div>
+      </div>
+      
       <div className="container">
         <h2 className="section-title">About Me</h2>
         
@@ -87,21 +93,34 @@ const About = () => {
           </div>
           
           <div className="about-visual">
-            <div className="skills-preview">
-              <div className="skill-cube">
-                <div className="cube-face front">WEB DEV</div>
-                <div className="cube-face back">AI/ML</div>
-                <div className="cube-face right">MOBILE</div>
-                <div className="cube-face left">CLOUD</div>
-                <div className="cube-face top">DATA</div>
-                <div className="cube-face bottom">UX/UI</div>
+            <div className="tech-cube-container">
+              <div className="tech-cube">
+                <div className="cube-face front">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" />
+                  <span>REACT</span>
+                </div>
+                <div className="cube-face back">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" />
+                  <span>PYTHON</span>
+                </div>
+                <div className="cube-face right">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" />
+                  <span>JS</span>
+                </div>
+                <div className="cube-face left">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" />
+                  <span>NODE.JS</span>
+                </div>
+                <div className="cube-face top">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" />
+                  <span>JAVA</span>
+                </div>
+                <div className="cube-face bottom">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" alt="TensorFlow" />
+                  <span>AI/ML</span>
+                </div>
               </div>
-              <div className="floating-tech">
-                <div className="tech-orb">⚛️</div>
-                <div className="tech-orb">🤖</div>
-                <div className="tech-orb">📱</div>
-                <div className="tech-orb">☁️</div>
-              </div>
+              <div className="cube-glow"></div>
             </div>
           </div>
         </div>

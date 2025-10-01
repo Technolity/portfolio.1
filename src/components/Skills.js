@@ -6,16 +6,66 @@ const Skills = () => {
   const [animated, setAnimated] = useState(false);
 
   const skills = [
-    { name: 'REACT.JS', level: 85, category: 'frontend', icon: '⚛️' },
-    { name: 'JAVASCRIPT', level: 88, category: 'frontend', icon: '🟨' },
-    { name: 'HTML5', level: 92, category: 'frontend', icon: '🔶' },
-    { name: 'CSS3', level: 90, category: 'frontend', icon: '💎' },
-    { name: 'NODE.JS', level: 75, category: 'backend', icon: '🟢' },
-    { name: 'PYTHON', level: 80, category: 'backend', icon: '🐍' },
-    { name: 'JAVA', level: 78, category: 'programming', icon: '☕' },
-    { name: 'C PROGRAMMING', level: 85, category: 'programming', icon: '🔷' },
-    { name: 'GIT', level: 82, category: 'tools', icon: '📚' },
-    { name: 'AI/ML', level: 70, category: 'emerging', icon: '🤖' }
+    { 
+      name: 'REACT.JS', 
+      level: 85, 
+      category: 'frontend', 
+      logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' 
+    },
+    { 
+      name: 'JAVASCRIPT', 
+      level: 88, 
+      category: 'frontend', 
+      logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' 
+    },
+    { 
+      name: 'HTML5', 
+      level: 92, 
+      category: 'frontend', 
+      logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' 
+    },
+    { 
+      name: 'CSS3', 
+      level: 90, 
+      category: 'frontend', 
+      logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' 
+    },
+    { 
+      name: 'NODE.JS', 
+      level: 75, 
+      category: 'backend', 
+      logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg' 
+    },
+    { 
+      name: 'PYTHON', 
+      level: 80, 
+      category: 'backend', 
+      logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' 
+    },
+    { 
+      name: 'JAVA', 
+      level: 78, 
+      category: 'programming', 
+      logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' 
+    },
+    { 
+      name: 'C PROGRAMMING', 
+      level: 85, 
+      category: 'programming', 
+      logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg' 
+    },
+    { 
+      name: 'GIT', 
+      level: 82, 
+      category: 'tools', 
+      logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' 
+    },
+    { 
+      name: 'TENSORFLOW', 
+      level: 70, 
+      category: 'emerging', 
+      logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg' 
+    }
   ];
 
   useEffect(() => {
@@ -65,7 +115,22 @@ const Skills = () => {
               data-category={skill.category}
             >
               <div className="skill-header">
-                <div className="skill-icon">{skill.icon}</div>
+                <div className="skill-logo-container">
+                  <img 
+                    src={skill.logo} 
+                    alt={skill.name}
+                    className="skill-logo"
+                    loading="lazy"
+                    onError={(e) => {
+                      // Fallback to text if image fails to load
+                      e.target.style.display = 'none';
+                      const fallback = document.createElement('div');
+                      fallback.className = 'skill-fallback';
+                      fallback.textContent = skill.name.charAt(0);
+                      e.target.parentNode.appendChild(fallback);
+                    }}
+                  />
+                </div>
                 <h3 className="skill-name">{skill.name}</h3>
                 <div className="skill-percent">{skill.level}%</div>
               </div>

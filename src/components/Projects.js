@@ -24,7 +24,7 @@ const Projects = () => {
       description: 'Real-time cryptocurrency tracking application with price alerts, portfolio management, and market analysis features. Fetches live data from multiple APIs.',
       category: 'web',
       technologies: ['React.js', 'API Integration', 'Chart.js', 'Firebase'],
-      status: 'In Progress',
+      status: 'Completed',
       image: 'images/project2.png',
       liveLink: 'https://crypto-tracker-indol-alpha.vercel.app',
       githubLink: 'https://github.com/Technolity/crypto-tracker',
@@ -238,5 +238,6 @@ const Projects = () => {
 };
 
 export default Projects;
+
 
 

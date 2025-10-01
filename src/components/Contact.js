@@ -122,7 +122,7 @@ const Contact = () => {
                     <div className="channel-icon">📍</div>
                     <div className="channel-info">
                       <div className="channel-name">COORDINATES</div>
-                      <div className="channel-value">India</div>
+                      <div className="channel-value">Sopore,Baramulla Kashmir,India</div>
                     </div>
                   </div>
                 </div>
@@ -271,5 +271,6 @@ const Contact = () => {
     </section>
   );
 };
+
 
 export default Contact;

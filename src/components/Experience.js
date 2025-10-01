@@ -50,7 +50,7 @@ const Experience = () => {
     {
       id: 4,
       title: 'AI/ML Learning Journey',
-      period: '2024 - Present',
+      period: 'Starting Soon',
       description: 'Started exploring Artificial Intelligence and Machine Learning concepts. Working on foundational projects to understand data analysis and predictive modeling.',
       achievements: [
         'Learning Python for data science',
@@ -159,5 +159,6 @@ const Experience = () => {
     </section>
   );
 };
+
 
 export default Experience;

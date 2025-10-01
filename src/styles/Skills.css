@@ -88,9 +88,63 @@
   margin-bottom: 1rem;
 }
 
-.skill-icon {
-  font-size: 2rem;
+.skill-logo-container {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px;
   margin-right: 1rem;
+  transition: all 0.3s ease;
+}
+
+.cyber-skill-card:hover .skill-logo-container {
+  background: rgba(32, 201, 201, 0.1);
+  border-color: rgba(32, 201, 201, 0.3);
+  transform: scale(1.1);
+}
+
+.skill-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1); /* Make white logos */
+  transition: all 0.3s ease;
+}
+
+/* Specific styling for colored logos that should remain colored */
+.cyber-skill-card[data-category="frontend"] .skill-logo {
+  filter: none; /* Keep original colors for frontend logos */
+}
+
+.cyber-skill-card[data-category="backend"] .skill-logo {
+  filter: brightness(0.8) saturate(1.2); /* Enhance colors for backend */
+}
+
+.cyber-skill-card[data-category="programming"] .skill-logo {
+  filter: grayscale(0.3) brightness(1.1); /* Slightly desaturated for programming */
+}
+
+.cyber-skill-card[data-category="emerging"] .skill-logo {
+  filter: hue-rotate(180deg) brightness(1.2); /* Futuristic color shift for emerging tech */
+}
+
+.skill-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #20c9c9, #0d8b8b);
+  color: #0a0a0a;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-radius: 8px;
 }
 
 .skill-name {
@@ -254,6 +308,19 @@
     padding: 1.5rem;
   }
   
+  .skill-logo-container {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .skill-name {
+    font-size: 1rem;
+  }
+  
+  .skill-percent {
+    font-size: 1rem;
+  }
+  
   .tech-tags {
     justify-content: flex-start;
   }
@@ -264,16 +331,18 @@
     padding: 1rem;
   }
   
-  .skill-icon {
-    font-size: 1.5rem;
+  .skill-logo-container {
+    width: 35px;
+    height: 35px;
+    margin-right: 0.8rem;
   }
   
   .skill-name {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   
   .skill-percent {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   
   .category-title {

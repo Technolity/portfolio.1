@@ -57,10 +57,10 @@ const Contact = () => {
   }, []);
 
   const socialLinks = [
-    { name: 'GitHub', url: 'https://github.com/Technolity', icon: '⚡', username: 'warisrawa' },
-    { name: 'LinkedIn', url: 'https://linkedin.com/in/waris-rawa-41959a216', icon: '🔗', username: 'warisrawa' },
-    { name: 'Twitter', url: 'https://twitter.com/walorex', icon: '🐦', username: '@warisrawa' },
-    { name: 'Instagram', url: 'https://instagram.com/technologically.traumatised', icon: '📸', username: 'waris.rawa' }
+    { name: 'GitHub', url: 'https://github.com/Technolity', icon: '⚡', username: 'Technolity' },
+    { name: 'LinkedIn', url: 'https://linkedin.com/in/waris-rawa-41959a216', icon: '🔗', username: 'Waris Rawa' },
+    { name: 'Twitter', url: 'https://twitter.com/Technolity_', icon: '🐦', username: '@Technolity_' },
+    { name: 'Instagram', url: 'https://instagram.com/technologically.traumatised', icon: '📸', username: 'Technologically.traumatised' }
   ];
 
   return (
@@ -193,7 +193,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   className="cyber-input"
-                  placeholder="your.email@domain.com"
+                  placeholder="warisrawa145@gmail.com"
                   disabled={isSubmitting}
                 />
               </div>
@@ -258,7 +258,7 @@ const Contact = () => {
             <h3>Ready to Start Your Project?</h3>
             <p>Let's discuss how we can work together to bring your ideas to life.</p>
             <div className="cta-buttons">
-              <a href="mailto:waris.rawa@example.com" className="cyber-btn primary">
+              <a href="mailto:warisrawa145@gmail.com" className="cyber-btn primary">
                 <span>Send Direct Email</span>
               </a>
               <a href="#projects" className="cyber-btn">
@@ -274,3 +274,4 @@ const Contact = () => {
 
 
 export default Contact;
+

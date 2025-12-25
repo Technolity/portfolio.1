@@ -4,42 +4,76 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo512.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
+    <meta name="theme-color" content="#64ffda" />
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Full-Stack AI-Powered Developer - I build intelligent applications using AI, APIs, and automation. Specializing in React, Node.js, OpenAI integration, and scalable web solutions." />
+    <meta name="keywords" content="AI Developer, Full-Stack Developer, React, Node.js, OpenAI, API Integration, Automation, Web Development, Machine Learning" />
+    <meta name="author" content="Your Name - Full-Stack AI Developer" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Full-Stack AI-Powered Developer Portfolio" />
+    <meta property="og:description" content="Building intelligent web applications with AI, APIs, and modern technology stack. Explore my projects featuring OpenAI integration, automation, and scalable solutions." />
+    <meta property="og:image" content="%PUBLIC_URL%/portfolio-preview.jpg" />
+    <meta property="og:url" content="https://yourportfolio.com" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Full-Stack AI-Powered Developer" />
+    <meta name="twitter:description" content="Building intelligent web applications with AI, APIs, and automation" />
+    <meta name="twitter:image" content="%PUBLIC_URL%/portfolio-preview.jpg" />
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts - Space Grotesk & JetBrains Mono for tech-innovated typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>Technolity-Portfolio</title>
+    
+    <title>Full-Stack AI-Powered Developer | Your Name</title>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Your Name",
+      "jobTitle": "Full-Stack AI-Powered Developer",
+      "description": "Specialist in building intelligent web applications using AI, APIs, and automation",
+      "url": "https://yourportfolio.com",
+      "sameAs": [
+        "https://github.com/Technolity",
+        "https://linkedin.com/in/yourprofile"
+      ],
+      "knowsAbout": [
+        "React.js",
+        "Node.js", 
+        "OpenAI API",
+        "Full-Stack Development",
+        "AI Integration",
+        "Web Automation",
+        "API Development"
+      ]
+    }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+    
+    <!-- Performance monitoring -->
+    <script>
+      // Basic performance monitoring
+      window.addEventListener('load', function() {
+        if ('performance' in window) {
+          const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+          console.log('Page load time:', loadTime + 'ms');
+        }
+      });
+    </script>
   </body>
 </html>
-
-

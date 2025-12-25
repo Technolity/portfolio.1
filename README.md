@@ -1,70 +1,167 @@
-# Getting Started with Create React App
+# Cinematic Developer Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A powerful, cinematic portfolio website inspired by Red Dead Redemption 2 and Peaky Blinders aesthetics. Built with React and featuring smooth scroll animations, this portfolio communicates control, intelligence, and quiet confidence.
 
-## Available Scripts
+## 🎬 Theme
 
-In the project directory, you can run:
+**From:** Futuristic sci-fi galaxy theme  
+**To:** Dark, grounded, atmospheric cinematic experience
 
-### `npm start`
+### Design Philosophy
+- **Power & Control** - Commanding presence without flashiness
+- **Intelligence** - Professional, serious systems builder
+- **Quiet Confidence** - RDR2 & Peaky Blinders inspired aesthetic
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🎨 Visual Identity
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Color Palette
+- **Deep Blacks & Charcoal** - Primary backgrounds
+- **Warm Sepia/Amber** - Accent highlights (#d4a574, #d4a373)
+- **Off-White Typography** - Readable, elegant text (#e8e6e3)
+- **Subtle Gold/Copper** - Minimal accent touches
 
-### `npm test`
+### Typography
+- **Headings:** Playfair Display (Serif) - Cinematic, powerful
+- **Body:** Inter (Sans-serif) - Clean, readable
+- **Mono:** Consolas - Technical elements
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 Technology Stack
 
-### `npm run build`
+### Core
+- **React 18** - UI framework
+- **Lenis** - Smooth cinematic scrolling
+- **GSAP** - High-performance animations
+- **ScrollTrigger** - Scroll-based animations
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Features
+- ✅ Smooth cinematic scrolling with Lenis
+- ✅ Film grain texture overlay
+- ✅ Vignette effect
+- ✅ Slow parallax background movement
+- ✅ GSAP-powered section transitions
+- ✅ Responsive design (mobile-optimized)
+- ✅ Performance optimized (60+ FPS)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📁 Project Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+src/
+├── components/
+│   ├── sections/
+│   │   ├── HeroCinematic.js          # Full-page hero with parallax
+│   │   ├── WhatIBuildCinematic.js    # Command panel style
+│   │   ├── FeaturedProjectsCinematic.js  # Case files aesthetic
+│   │   ├── TechStackCinematic.js     # Tactical display
+│   │   ├── ExperienceCinematic.js    # Timeline layout
+│   │   ├── AboutCinematic.js         # Principles showcase
+│   │   └── ContactCinematic.js       # Minimal contact section
+│   └── UI/
+│       └── Navbar.js                 # Clean, minimal navigation
+├── styles/
+│   ├── cinematic-theme.css           # Core theme & variables
+│   ├── HeroCinematic.css
+│   ├── WhatIBuildCinematic.css
+│   ├── FeaturedProjectsCinematic.css
+│   ├── TechStackCinematic.css
+│   ├── SharedCinematic.css           # Shared component styles
+│   └── Navbar.css
+└── App.js                            # Main app with Lenis setup
+```
 
-### `npm run eject`
+## 🎯 Sections
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Hero** - Full-page cinematic with slow parallax background
+2. **What I Build** - Horizontal command panels showcasing services
+3. **Featured Projects** - Case file dossiers with large images
+4. **Tech Stack** - Tactical briefing screen aesthetic
+5. **Experience** - Professional timeline
+6. **About** - Core principles and philosophy
+7. **Contact** - Minimal, professional contact section
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🛠 Installation & Setup
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+# Install dependencies
+npm install
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Start development server
+npm start
 
-## Learn More
+# Build for production
+npm run build
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📦 Dependencies
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```json
+{
+  "lenis": "^1.x.x",           // Smooth scrolling
+  "gsap": "^3.14.2",           // Animations
+  "react": "^18.2.0",          // UI framework
+  "react-dom": "^18.2.0"
+}
+```
 
-### Code Splitting
+## 🎭 Animation Philosophy
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+**NOT:**
+- ❌ Fast, playful motion
+- ❌ Over-reactive cursor effects
+- ❌ Spinning/warping transitions
+- ❌ Neon colors
 
-### Analyzing the Bundle Size
+**YES:**
+- ✅ Slow, intentional movement
+- ✅ Cross-fades and depth-based parallax
+- ✅ Camera-like drift
+- ✅ Controlled, cinematic transitions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🎨 Design Principles
 
-### Making a Progressive Web App
+### Motion
+- **Duration:** Slow, controlled (0.8-1.2s)
+- **Easing:** power3.out, power2.out
+- **Style:** Camera-like, cinematic
+- **Performance:** Always 60+ FPS
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Typography
+- **Always readable** - No sacrificing legibility
+- **Hierarchy matters** - Clear visual structure
+- **Spacing** - Generous, intentional whitespace
 
-### Advanced Configuration
+### Interactions
+- **Subtle** - No chaos on hover
+- **Predictable** - Users know what will happen
+- **Rewarding** - Smooth, satisfying feedback
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🌐 Browser Support
 
-### Deployment
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 📱 Responsive Design
 
-### `npm run build` fails to minify
+- **Desktop:** Full cinematic experience
+- **Tablet:** Simplified layouts, maintained aesthetics
+- **Mobile:** Optimized for touch, reduced motion
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🚀 Performance
+
+- **FPS:** 60+ maintained
+- **Load time:** Optimized assets
+- **Accessibility:** Respects `prefers-reduced-motion`
+
+## 📝 License
+
+This project is for portfolio purposes.
+
+## 🎬 Final Identity
+
+**This portfolio communicates:**
+> "A developer who builds serious systems with control, depth, and intelligence."
+
+**Inspired by:** Red Dead Redemption 2, Peaky Blinders  
+**Feel:** Dark, atmospheric, powerful, grounded  
+**Not:** Flashy, experimental, playful

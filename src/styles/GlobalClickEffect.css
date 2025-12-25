@@ -1,0 +1,103 @@
+/* =============================================
+   GLOBAL CLICK EFFECT
+   Bullet holes + gunsmoke on every click
+   ============================================= */
+
+/* Global bullet hole container */
+.global-bullet-hole {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9990;
+}
+
+.bullet-hole-video {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+}
+
+/* CSS fallback bullet hole if video doesn't work */
+.global-bullet-hole.css-bullet-hole::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle,
+            #000000 0%,
+            #1a1a1a 40%,
+            transparent 70%);
+    border-radius: 50%;
+    box-shadow:
+        inset 0 0 8px rgba(0, 0, 0, 0.95),
+        0 0 4px rgba(0, 0, 0, 0.6);
+    animation: bulletHoleAppear 0.15s ease-out forwards;
+}
+
+/* Stuck bullet */
+.global-bullet-hole.css-bullet-hole::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(135deg,
+            #c9a55c 0%,
+            #8b6914 30%,
+            #5c4410 60%,
+            #3d2d0a 100%);
+    border-radius: 50%;
+    box-shadow:
+        0 0 3px rgba(201, 165, 92, 0.8),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes bulletHoleAppear {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.global-bullet-hole.fade-out {
+    animation: bulletHoleFadeOut 0.5s ease-out forwards;
+}
+
+@keyframes bulletHoleFadeOut {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+/* Gunsmoke container */
+.global-gunsmoke {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9995;
+}
+
+.gunsmoke-video {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+}
+
+.gunsmoke-gif {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}

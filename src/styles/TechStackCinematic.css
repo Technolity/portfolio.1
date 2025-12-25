@@ -15,6 +15,61 @@
   margin-top: 4rem;
 }
 
+/* Expanded Skill Card Specific Styles */
+.expanded-skill-card .expanded-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.expanded-skill-icon {
+  width: 60px;
+  height: 60px;
+  padding: 0.75rem;
+  background: rgba(212, 165, 116, 0.1);
+  border: 1px solid rgba(212, 165, 116, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expanded-skill-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.expanded-skill-meta {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: rgba(10, 10, 10, 0.5);
+  border: 1px solid rgba(42, 42, 42, 0.5);
+  border-radius: 8px;
+}
+
+.skill-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.meta-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.meta-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-sepia);
+}
+
 /* ===== TECH CATEGORY ===== */
 .tech-category {
   background: rgba(26, 26, 26, 0.3);
@@ -31,11 +86,9 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(
-    to right,
-    var(--color-sepia),
-    transparent
-  );
+  background: linear-gradient(to right,
+      var(--color-sepia),
+      transparent);
   opacity: 0;
   transition: opacity var(--transition-medium);
 }
@@ -348,4 +401,3 @@
     font-size: 0.8125rem;
   }
 }
-

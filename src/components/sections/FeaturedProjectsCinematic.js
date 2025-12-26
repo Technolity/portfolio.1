@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { createBulletImpact } from '../UI/BulletImpact';
 import '../../styles/FeaturedProjectsCinematic.css';
 import '../../styles/BulletImpact.css';
 
@@ -98,22 +97,9 @@ const FeaturedProjectsCinematic = () => {
     };
   }, []);
 
-  // Handle card click with bullet effect
+  // Handle card click - expand immediately
   const handleProjectClick = (e, project) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX;
-    const y = e.clientY;
-
-    // Create bullet impact effect
-    createBulletImpact({
-      x,
-      y,
-      container: document.body,
-      targetElement: e.currentTarget,
-      onComplete: () => {
-        setExpandedProject(project);
-      }
-    });
+    setExpandedProject(project);
   };
 
   // Close expanded card

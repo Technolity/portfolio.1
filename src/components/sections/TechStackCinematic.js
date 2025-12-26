@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { createBulletImpact } from '../UI/BulletImpact';
 import '../../styles/TechStackCinematic.css';
 import '../../styles/BulletImpact.css';
 
@@ -89,21 +88,9 @@ const TechStackCinematic = () => {
     };
   }, []);
 
-  // Handle skill click with bullet effect
+  // Handle skill click - expand immediately
   const handleSkillClick = (e, skill, categoryName) => {
-    const x = e.clientX;
-    const y = e.clientY;
-
-    // Create bullet impact effect
-    createBulletImpact({
-      x,
-      y,
-      container: document.body,
-      targetElement: e.currentTarget,
-      onComplete: () => {
-        setExpandedSkill({ ...skill, category: categoryName });
-      }
-    });
+    setExpandedSkill({ ...skill, category: categoryName });
   };
 
   // Close expanded skill

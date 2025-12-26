@@ -241,17 +241,45 @@
   padding: 0.5rem 0;
 }
 
-.hero-social-minimal a {
+.hero-social-minimal a,
+.hero-social-minimal .game-icon-btn {
   color: var(--color-text-muted);
   transition: all var(--transition-fast);
   opacity: 0.7;
   padding: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
 }
 
-.hero-social-minimal a:hover {
+.hero-social-minimal a:hover,
+.hero-social-minimal .game-icon-btn:hover {
   color: var(--color-sepia);
   opacity: 1;
   transform: translateY(-2px);
+}
+
+.game-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-icon-btn:hover {
+  animation: gunSpin 0.6s ease-in-out;
+}
+
+@keyframes gunSpin {
+
+  0%,
+  100% {
+    transform: translateY(-2px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-2px) rotate(180deg);
+  }
 }
 
 /* ===== SCROLL HINT - Positioned away from content ===== */

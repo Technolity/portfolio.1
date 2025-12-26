@@ -5,7 +5,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Import UI components
 import CinematicLoader from './components/UI/CinematicLoader';
-import GlobalClickEffect from './components/UI/GlobalClickEffect';
 import Navbar from './components/UI/Navbar';
 
 // Import new cinematic components
@@ -63,8 +62,7 @@ function App() {
       {/* Cinematic Loading Screen */}
       {isLoading && <CinematicLoader onComplete={() => setIsLoading(false)} />}
 
-      {/* Global Bullet Hole + Gunsmoke on every click */}
-      <GlobalClickEffect />
+
 
       <div className="cinematic-app">
         {/* Navigation */}

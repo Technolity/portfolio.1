@@ -2,7 +2,7 @@ import { gsap } from 'gsap';
 
 /**
  * Creates a cinematic bullet impact effect at a specific position
- * Features: bullet tracer, impact flash, debris, bullet hole, gunsmoke
+ * Features: bullet tracer, impact flash, debris, bullet hole video, gunsmoke video
  * 
  * @param {Object} options
  * @param {number} options.x - X coordinate for impact
@@ -106,7 +106,7 @@ export const createBulletImpact = ({
 };
 
 /**
- * Creates impact effects: flash, debris, bullet hole, gunsmoke
+ * Creates impact effects: flash, debris, bullet hole video, gunsmoke video
  */
 const createImpactEffects = (x, y, container, targetElement, onComplete) => {
     // Impact flash
@@ -129,61 +129,110 @@ const createImpactEffects = (x, y, container, targetElement, onComplete) => {
         onComplete: () => flash.remove()
     });
 
-    // Impact debris particles
+    // Impact debris
     for (let i = 0; i < 8; i++) {
         const debris = document.createElement('div');
         debris.className = 'bullet-impact-debris';
         container.appendChild(debris);
 
-        const debrisAngle = (Math.PI * 2 * i) / 8 + (Math.random() - 0.5) * 0.5;
-        const debrisDistance = 30 + Math.random() * 40;
+        const angle = (Math.PI * 2 * i) / 8;
+        const distance = 30 + Math.random() * 40;
+        const debrisX = x + Math.cos(angle) * distance;
+        const debrisY = y + Math.sin(angle) * distance;
 
-        gsap.set(debris, { x: x, y: y, scale: 1 });
+        gsap.set(debris, { x: x, y: y });
         gsap.to(debris, {
-            x: x + Math.cos(debrisAngle) * debrisDistance,
-            y: y + Math.sin(debrisAngle) * debrisDistance,
+            x: debrisX,
+            y: debrisY,
             opacity: 0,
             scale: 0,
-            duration: 0.5,
+            duration: 0.6,
             ease: 'power2.out',
             onComplete: () => debris.remove()
         });
     }
 
-    // Bullet hole with stuck bullet
-    const hole = document.createElement('div');
-    hole.className = 'bullet-impact-hole';
-    container.appendChild(hole);
+    // Bullet hole with video
+    const holeContainer = document.createElement('div');
+    holeContainer.className = 'bullet-impact-hole-video';
+    holeContainer.style.position = 'absolute';
+    holeContainer.style.left = `${x}px`;
+    holeContainer.style.top = `${y}px`;
+    holeContainer.style.transform = 'translate(-50%, -50%)';
+    holeContainer.style.pointerEvents = 'none';
+    holeContainer.style.zIndex = '1000';
+    container.appendChild(holeContainer);
 
-    // Create the actual bullet stuck in the hole
-    const stuckBullet = document.createElement('div');
-    stuckBullet.className = 'bullet-impact-stuck';
-    hole.appendChild(stuckBullet);
+    // Create video element
+    const video = document.createElement('video');
+    video.style.width = '140px';
+    video.style.height = '140px';
+    video.style.objectFit = 'contain';
+    video.autoplay = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.loop = false;
 
-    gsap.set(hole, {
-        x: x,
-        y: y,
-        scale: 0,
-        opacity: 1
-    });
+    // Add sources (WebM first, MOV fallback)
+    const sourceWebm = document.createElement('source');
+    sourceWebm.src = '/effects/Bullet-Hole-Glass.webm';
+    sourceWebm.type = 'video/webm';
+    video.appendChild(sourceWebm);
 
-    // Bullet pops in with impact
-    gsap.to(hole, {
+    const sourceMov = document.createElement('source');
+    sourceMov.src = '/effects/Bullet-Hole-Glass.mov';
+    sourceMov.type = 'video/quicktime';
+    video.appendChild(sourceMov);
+
+    holeContainer.appendChild(video);
+
+    // Show with scale animation
+    gsap.set(holeContainer, { scale: 0, opacity: 1 });
+    gsap.to(holeContainer, {
         scale: 1,
         duration: 0.15,
-        ease: 'back.out(4)',
-        onComplete: () => {
-            // Keep bullet visible longer - fade out after 4 seconds
-            gsap.to(hole, {
-                opacity: 0,
-                delay: 4,
-                duration: 1,
-                onComplete: () => hole.remove()
-            });
-        }
+        ease: 'back.out(4)'
     });
 
-    // Gunsmoke effect
+    // Keep visible for 5 seconds after video ends
+    video.addEventListener('ended', () => {
+        setTimeout(() => {
+            gsap.to(holeContainer, {
+                opacity: 0,
+                duration: 0.5,
+                onComplete: () => holeContainer.remove()
+            });
+        }, 5000);
+    });
+
+    // Fallback if video fails - use CSS bullet hole
+    video.addEventListener('error', () => {
+        holeContainer.remove();
+        const hole = document.createElement('div');
+        hole.className = 'bullet-impact-hole';
+        container.appendChild(hole);
+
+        const stuckBullet = document.createElement('div');
+        stuckBullet.className = 'bullet-impact-stuck';
+        hole.appendChild(stuckBullet);
+
+        gsap.set(hole, { x, y, scale: 0, opacity: 1 });
+        gsap.to(hole, {
+            scale: 1,
+            duration: 0.15,
+            ease: 'back.out(4)',
+            onComplete: () => {
+                gsap.to(hole, {
+                    opacity: 0,
+                    delay: 4,
+                    duration: 1,
+                    onComplete: () => hole.remove()
+                });
+            }
+        });
+    });
+
+    // Gunsmoke video effect
     createGunsmoke(x, y, container);
 
     // Shake target element
@@ -203,23 +252,86 @@ const createImpactEffects = (x, y, container, targetElement, onComplete) => {
                     rotation: 0,
                     duration: 0.2
                 });
-                // Delay the callback so effects can be seen
+                // Call immediately - no delay
                 if (onComplete) {
-                    setTimeout(onComplete, 800);
+                    onComplete();
                 }
             }
         });
     } else if (onComplete) {
-        // Delay even without target element
-        setTimeout(onComplete, 1000);
+        // Call immediately - no delay
+        onComplete();
     }
 };
 
 /**
- * Creates gunsmoke cloud effect that billows and fades
+ * Creates gunsmoke video effect
  */
 const createGunsmoke = (x, y, container) => {
-    // More smoke particles for revolver-style effect
+    // Create gunsmoke video container
+    const smokeContainer = document.createElement('div');
+    smokeContainer.style.position = 'absolute';
+    smokeContainer.style.left = `${x}px`;
+    smokeContainer.style.top = `${y}px`;
+    smokeContainer.style.transform = 'translate(-50%, -50%)';
+    smokeContainer.style.pointerEvents = 'none';
+    smokeContainer.style.zIndex = '1001';
+    container.appendChild(smokeContainer);
+
+    // Create video element
+    const video = document.createElement('video');
+    video.style.width = '200px';
+    video.style.height = '200px';
+    video.style.objectFit = 'contain';
+    video.autoplay = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.loop = false;
+
+    // Add sources (WebM first, MOV fallback)
+    const sourceWebm = document.createElement('source');
+    sourceWebm.src = '/effects/gunsmoke.webm';
+    sourceWebm.type = 'video/webm';
+    video.appendChild(sourceWebm);
+
+    const sourceMov = document.createElement('source');
+    sourceMov.src = '/effects/gunsmoke.mov';
+    sourceMov.type = 'video/quicktime';
+    video.appendChild(sourceMov);
+
+    smokeContainer.appendChild(video);
+
+    // Remove when video ends
+    video.addEventListener('ended', () => {
+        smokeContainer.remove();
+    });
+
+    // Fallback to CSS smoke if video fails
+    let videoPlayed = false;
+    video.addEventListener('play', () => {
+        videoPlayed = true;
+    });
+
+    video.addEventListener('error', () => {
+        if (!videoPlayed) {
+            smokeContainer.remove();
+            createCSSSmoke(x, y, container);
+        }
+    });
+
+    // Timeout fallback
+    setTimeout(() => {
+        if (!videoPlayed && video.paused) {
+            smokeContainer.remove();
+            createCSSSmoke(x, y, container);
+        }
+    }, 500);
+};
+
+/**
+ * CSS smoke fallback if video doesn't work
+ */
+const createCSSSmoke = (x, y, container) => {
     const smokeCount = 12;
 
     for (let i = 0; i < smokeCount; i++) {
@@ -241,7 +353,6 @@ const createGunsmoke = (x, y, container) => {
             height: size
         });
 
-        // Animate smoke rising and expanding - more dramatic
         gsap.to(smoke, {
             y: y + offsetY - 100 - Math.random() * 60,
             x: x + offsetX + (Math.random() - 0.5) * 80,

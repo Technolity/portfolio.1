@@ -1,0 +1,67 @@
+/* ============================================================
+   ABOUT — Snake cursor + stats
+   ============================================================ */
+
+/* Section wrapper needs position:relative for the canvas */
+.about-section-wrap {
+  position: relative;
+}
+
+/* Snake canvas: absolute overlay, never blocks pointer events */
+.about-snake-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 20;
+  display: block;
+}
+
+/* ---- STAT ROW ---- */
+
+.about-stats {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  margin-top: 2.25rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.about-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.about-stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.about-stat-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-3);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 767px) {
+  .about-stats {
+    gap: 1.75rem;
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+  }
+  .about-stat-num { font-size: clamp(1.75rem, 8vw, 2.5rem); }
+}

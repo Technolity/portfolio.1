@@ -1,36 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles/Navbar.css';
+import { profile } from '../../content/portfolioData';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [time, setTime] = useState(new Date());
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-      
-      // Update active section based on scroll position
+
       const sections = ['home', 'what-i-build', 'projects', 'tech-stack', 'experience', 'about', 'contact'];
-      const scrollPosition = window.scrollY + 200;
+      const scrollPosition = window.scrollY + 180;
 
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetBottom = offsetTop + element.offsetHeight;
-          
-          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
-            setActiveSection(sectionId);
-            break;
-          }
+        if (!element) continue;
+        const offsetTop = element.offsetTop;
+        const offsetBottom = offsetTop + element.offsetHeight;
+        if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
+          setActiveSection(sectionId);
+          break;
         }
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (date) => {
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+  };
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -41,25 +55,26 @@ const Navbar = () => {
   };
 
   const navItems = [
-    { id: 'home', label: 'Home' },
     { id: 'what-i-build', label: 'Services' },
     { id: 'projects', label: 'Projects' },
-    { id: 'tech-stack', label: 'Skills' },
+    { id: 'tech-stack', label: 'Stack' },
+    { id: 'experience', label: 'Experience' },
     { id: 'about', label: 'About' },
-    { id: 'contact', label: 'Contact' }
+    { id: 'contact', label: 'Contact' },
   ];
 
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        {/* Logo */}
         <div className="navbar-logo clickable" onClick={() => scrollToSection('home')}>
-          <span className="logo-bracket">{'<'}</span>
-          <span className="logo-text">DevPortfolio</span>
-          <span className="logo-bracket">{'/>'}</span>
+          <img
+            src="/images/profile.png"
+            alt={profile.brand}
+            className="navbar-logo-img"
+            draggable="false"
+          />
         </div>
 
-        {/* Desktop Navigation */}
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'open' : ''}`}>
           {navItems.map((item) => (
             <li key={item.id}>
@@ -75,17 +90,27 @@ const Navbar = () => {
               </a>
             </li>
           ))}
+          <li className="navbar-menu-resume">
+            <a href={profile.resume} download onClick={() => setIsMobileMenuOpen(false)}>
+              Resume ↓
+            </a>
+          </li>
         </ul>
 
-        {/* Mobile Menu Toggle */}
+        <div className="navbar-time" aria-label="Current time">
+          <span className="navbar-time-value">{formatTime(time)}</span>
+          <span className="navbar-time-zone">IST</span>
+        </div>
+
         <button
           className={`navbar-toggle ${isMobileMenuOpen ? 'active' : ''}`}
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          onClick={() => setIsMobileMenuOpen((open) => !open)}
           aria-label="Toggle menu"
+          aria-expanded={isMobileMenuOpen}
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <span />
+          <span />
+          <span />
         </button>
       </div>
     </nav>

@@ -1,151 +1,201 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import '../../styles/HeroCinematic.css';
+import { profile } from '../../content/portfolioData';
+import RepelText from '../UI/RepelText';
 
+/* ============================================================
+   FLOWING INK PARTICLE SYSTEM
+   Each blob spawns near center, drifts upward with organic
+   wobble — creating the red-paint-on-dark-figure effect.
+   ============================================================ */
+class InkBlob {
+  constructor(cx, cy, w, h) {
+    const angle = Math.random() * Math.PI * 2;
+    const spawnR = Math.min(w, h) * (0.06 + Math.random() * 0.12);
+    this.x = cx + spawnR * Math.cos(angle);
+    this.y = cy + spawnR * Math.sin(angle);
+    // Upward-biased velocity — slower, more controlled
+    this.vx = (Math.random() - 0.5) * 0.7;
+    this.vy = -(Math.random() * 0.75 + 0.18);
+    this.size = Math.random() * 75 + 35;   // smaller blobs — less overwhelming
+    this.life = 1;
+    this.decay = Math.random() * 0.003 + 0.0012;
+    this.wobble = Math.random() * Math.PI * 2;
+    this.wobbleSpeed = Math.random() * 0.022 + 0.007;
+    // Deep crimson, kept subdued
+    this.r = Math.floor(175 + Math.random() * 45);
+    this.g = Math.floor(4 + Math.random() * 14);
+    this.b = Math.floor(12 + Math.random() * 28);
+  }
+
+  update() {
+    this.wobble += this.wobbleSpeed;
+    this.vx += Math.sin(this.wobble) * 0.04;
+    this.vy += (Math.random() - 0.5) * 0.025 - 0.004;
+    this.x += this.vx;
+    this.y += this.vy;
+    this.size *= 0.9978;
+    this.life -= this.decay;
+  }
+
+  get alive() {
+    return this.life > 0.01 && this.size > 3;
+  }
+
+  draw(ctx) {
+    ctx.save();
+    ctx.globalCompositeOperation = 'screen';
+    const g = ctx.createRadialGradient(
+      this.x, this.y, 0,
+      this.x, this.y, this.size
+    );
+    // Reduced max alpha: 0.32 instead of 0.55 — dimmer glow
+    g.addColorStop(0,    `rgba(${this.r},${this.g},${this.b},${this.life * 0.32})`);
+    g.addColorStop(0.45, `rgba(${Math.floor(this.r * 0.65)},${this.g},${this.b},${this.life * 0.14})`);
+    g.addColorStop(1,    'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+/* ============================================================
+   COMPONENT
+   ============================================================ */
 const HeroCinematic = () => {
-  const heroRef = useRef();
-  const bgRef = useRef();
-  const contentRef = useRef();
-  const [showGame, setShowGame] = useState(false);
+  const canvasRef   = useRef(null);
+  const figureRef   = useRef(null);
+  const textRef     = useRef(null);
+  const ctaRef      = useRef(null);
+  const locationRef = useRef(null);
+  const animIdRef   = useRef(null);
 
+  /* ---------- CANVAS INK ANIMATION ---------- */
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Entrance animation - slow, controlled
-      const tl = gsap.timeline({ delay: 0.3 });
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let blobs = [];
+    let frame = 0;
 
-      tl.fromTo(
-        contentRef.current.children,
-        {
-          opacity: 0,
-          y: 60,
-          filter: 'blur(10px)'
-        },
-        {
-          opacity: 1,
-          y: 0,
-          filter: 'blur(0px)',
-          duration: 1.2,
-          stagger: 0.3,
-          ease: 'power3.out'
-        }
-      );
+    const resize = () => {
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
 
-      // Slow parallax background drift - camera-like movement (NO ZOOM)
-      gsap.to(bgRef.current, {
-        scale: 1.0, // Changed from 1.1 to 1.0 - no zoom, natural fit
-        duration: 20,
-        ease: 'none',
-        yoyo: true,
-        repeat: -1
-      });
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
 
-      // Mouse parallax - subtle, controlled
-      const handleMouseMove = (e) => {
-        const { clientX, clientY } = e;
-        const x = (clientX / window.innerWidth - 0.5) * 20;
-        const y = (clientY / window.innerHeight - 0.5) * 20;
+    const spawnBlob = () => {
+      const cx = canvas.width  * 0.5;
+      const cy = canvas.height * 0.47;
+      blobs.push(new InkBlob(cx, cy, canvas.width, canvas.height));
+    };
 
-        gsap.to(bgRef.current, {
-          x: x,
-          y: y,
-          duration: 2,
-          ease: 'power2.out'
-        });
-      };
+    const tick = () => {
+      frame++;
 
-      window.addEventListener('mousemove', handleMouseMove);
+      // Dark fade trail — higher alpha = trails clear faster = less buildup
+      ctx.fillStyle = 'rgba(8,8,8,0.10)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      return () => {
-        window.removeEventListener('mousemove', handleMouseMove);
-      };
-    }, heroRef);
+      // Spawn rate: throttle to keep it organic, not overwhelming
+      const spawnEvery = blobs.length < 60 ? 2 : blobs.length < 120 ? 4 : 8;
+      if (frame % spawnEvery === 0) spawnBlob();
 
-    return () => ctx.revert();
+      // Update + draw
+      blobs = blobs.filter(b => b.alive);
+      for (const b of blobs) {
+        b.update();
+        b.draw(ctx);
+      }
+
+      animIdRef.current = requestAnimationFrame(tick);
+    };
+
+    // Short delay so page paints first
+    const startTimer = setTimeout(() => tick(), 300);
+
+    return () => {
+      clearTimeout(startTimer);
+      cancelAnimationFrame(animIdRef.current);
+      ro.disconnect();
+    };
   }, []);
 
-  const scrollToProjects = () => {
-    const projectsSection = document.getElementById('projects');
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  /* ---------- GSAP ENTRANCE ---------- */
+  useEffect(() => {
+    // Figure: scale + fade in
+    gsap.fromTo(
+      figureRef.current,
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 1.6, delay: 0.15, ease: 'power2.out' }
+    );
+
+    // Text block children: stagger up
+    gsap.fromTo(
+      textRef.current?.children ? Array.from(textRef.current.children) : [],
+      { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, delay: 0.55, ease: 'power3.out',
+        onStart: () => {
+          if (textRef.current) textRef.current.style.opacity = '1';
+        }
+      }
+    );
+
+    // CTA + location pill
+    const els = [ctaRef.current, locationRef.current].filter(Boolean);
+    gsap.to(els, {
+      opacity: 1,
+      duration: 0.8,
+      delay: 1.1,
+      stagger: 0.08,
+      ease: 'power2.out',
+    });
+  }, []);
 
   return (
-    <section className="hero-cinematic" ref={heroRef}>
-      {/* Background Image with Dark Overlay */}
-      <div className="hero-bg-wrapper">
-        <div
-          className="hero-bg-image"
-          ref={bgRef}
-          style={{
-            backgroundImage: `url('/images/profile.png')`,
-            backgroundPosition: 'right center', // Position to right so text doesn't overlap face
-            backgroundSize: 'auto 100%' // Fit height, auto width - better for portrait images
-          }}
+    <section id="home" className="hero-cinematic">
+      {/* FLOWING INK CANVAS */}
+      <canvas ref={canvasRef} className="hero-canvas" aria-hidden="true" />
+
+      {/* CENTRAL FIGURE — Technolity logo as the "person" */}
+      <div className="hero-figure" ref={figureRef} aria-hidden="true">
+        <img
+          src="/images/profile.png"
+          alt=""
+          className="hero-figure-logo"
+          loading="eager"
+          draggable="false"
         />
-        <div className="hero-overlay" />
       </div>
 
-      {/* Content - Minimal, Powerful */}
-      <div className="hero-content-cinematic" ref={contentRef}>
-        <h1 className="hero-title-cinematic">
-          Full-Stack<br />
-          <span className="title-accent">AI-Powered</span><br />
-          Developer
-        </h1>
-
-        <p className="hero-subtitle-cinematic">
-          I build intelligent systems — end to end.
-        </p>
-
-        <div className="hero-cta-cinematic">
-          <button className="btn-primary" onClick={scrollToProjects}>
-            View Projects
-          </button>
-          <button className="btn-secondary">
-            Download Resume
-          </button>
-        </div>
-
-        <div className="hero-social-minimal">
-          <a href="https://github.com/Technolity" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
-          <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg>
-          </a>
-          <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
-            </svg>
-          </a>
-          {/* Cowboy Game Icon */}
-          <button
-            onClick={() => setShowGame(true)}
-            className="game-icon-btn"
-            aria-label="Play Cowboy Game"
-            title="🤠 Play Cowboy Showdown!"
-          >
-            🔫
-          </button>
-        </div>
+      {/* TEXT OVERLAY */}
+      <div className="hero-text-block" ref={textRef}>
+        <RepelText as="h1" className="hero-name">{profile.name}.</RepelText>
+        <RepelText as="p" className="hero-role">{profile.role}.</RepelText>
+        <span className="hero-year">2024—Present</span>
       </div>
 
-      {/* Scroll Indicator - Minimal */}
-      <div className="scroll-hint">
-        <div className="scroll-line-cinematic"></div>
-        <span>Scroll</span>
-      </div>
+      {/* GET IN TOUCH — bottom left */}
+      <a
+        href={`mailto:${profile.email}`}
+        className="hero-cta-touch"
+        ref={ctaRef}
+      >
+        Get in touch →
+      </a>
 
-      {/* Cowboy Game Modal */}
-      {showGame && <CowboyGame3D onClose={() => setShowGame(false)} />}
+      {/* LOCATION TAG — bottom right */}
+      <span className="hero-location-tag" ref={locationRef}>
+        {profile.location}
+      </span>
     </section>
   );
 };
 
 export default HeroCinematic;
-

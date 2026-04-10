@@ -1,10 +1,12 @@
 # Dependencies
 node_modules/
-
+.claude
+.claude-flow
+.cursor
 # Build output
 build/
 dist/
-
+claude.md
 # Environment variables
 .env
 .env.local
@@ -29,3 +31,7 @@ Thumbs.db
 
 # Vercel
 .vercel
+
+implementation_templates.md
+raviklaassens_analysis.md
+page_architecture.md

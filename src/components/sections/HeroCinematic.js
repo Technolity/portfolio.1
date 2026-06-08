@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import '../../styles/HeroCinematic.css';
-import { profile } from '../../content/portfolioData';
+import { profile, heroMetrics } from '../../content/portfolioData';
 import RepelText from '../UI/RepelText';
 
 /* ============================================================
@@ -51,9 +51,9 @@ class InkBlob {
       this.x, this.y, this.size
     );
     // Reduced max alpha: 0.32 instead of 0.55 — dimmer glow
-    g.addColorStop(0,    `rgba(${this.r},${this.g},${this.b},${this.life * 0.32})`);
+    g.addColorStop(0, `rgba(${this.r},${this.g},${this.b},${this.life * 0.32})`);
     g.addColorStop(0.45, `rgba(${Math.floor(this.r * 0.65)},${this.g},${this.b},${this.life * 0.14})`);
-    g.addColorStop(1,    'rgba(0,0,0,0)');
+    g.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = g;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -66,12 +66,12 @@ class InkBlob {
    COMPONENT
    ============================================================ */
 const HeroCinematic = () => {
-  const canvasRef   = useRef(null);
-  const figureRef   = useRef(null);
-  const textRef     = useRef(null);
-  const ctaRef      = useRef(null);
+  const canvasRef = useRef(null);
+  const figureRef = useRef(null);
+  const textRef = useRef(null);
+  const ctaRef = useRef(null);
   const locationRef = useRef(null);
-  const animIdRef   = useRef(null);
+  const animIdRef = useRef(null);
 
   /* ---------- CANVAS INK ANIMATION ---------- */
   useEffect(() => {
@@ -82,7 +82,7 @@ const HeroCinematic = () => {
     let frame = 0;
 
     const resize = () => {
-      canvas.width  = canvas.offsetWidth;
+      canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
     };
     resize();
@@ -91,7 +91,7 @@ const HeroCinematic = () => {
     ro.observe(canvas);
 
     const spawnBlob = () => {
-      const cx = canvas.width  * 0.5;
+      const cx = canvas.width * 0.5;
       const cy = canvas.height * 0.47;
       blobs.push(new InkBlob(cx, cy, canvas.width, canvas.height));
     };
@@ -140,7 +140,8 @@ const HeroCinematic = () => {
     gsap.fromTo(
       textRef.current?.children ? Array.from(textRef.current.children) : [],
       { opacity: 0, y: 18 },
-      { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, delay: 0.55, ease: 'power3.out',
+      {
+        opacity: 1, y: 0, duration: 0.7, stagger: 0.1, delay: 0.55, ease: 'power3.out',
         onStart: () => {
           if (textRef.current) textRef.current.style.opacity = '1';
         }
@@ -178,17 +179,35 @@ const HeroCinematic = () => {
       <div className="hero-text-block" ref={textRef}>
         <RepelText as="h1" className="hero-name">{profile.name}.</RepelText>
         <RepelText as="p" className="hero-role">{profile.role}.</RepelText>
-        <span className="hero-year">2024—Present</span>
+        <p className="hero-headline">{profile.headline}</p>
+        <ul className="hero-metrics" aria-label="Key impact metrics">
+          {heroMetrics.map((metric) => (
+            <li className="hero-metric" key={metric.label}>
+              <span className="hero-metric-value">{metric.value}</span>
+              <span className="hero-metric-label">{metric.label}</span>
+            </li>
+          ))}
+        </ul>
+        <span className="hero-year">2022—Present</span>
       </div>
 
-      {/* GET IN TOUCH — bottom left */}
-      <a
-        href={`mailto:${profile.email}`}
-        className="hero-cta-touch"
-        ref={ctaRef}
-      >
-        Get in touch →
-      </a>
+      {/* CTA GROUP — bottom left */}
+      <div className="hero-cta-group" ref={ctaRef}>
+        <a
+          href={`mailto:${profile.email}`}
+          className="hero-cta-touch"
+        >
+          Get in touch →
+        </a>
+        <a
+          href={profile.resume}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hero-cta-touch hero-cta-resume"
+        >
+          Resume ↓
+        </a>
+      </div>
 
       {/* LOCATION TAG — bottom right */}
       <span className="hero-location-tag" ref={locationRef}>

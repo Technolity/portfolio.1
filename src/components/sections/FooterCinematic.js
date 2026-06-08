@@ -153,7 +153,7 @@ const FooterCinematic = () => {
             rel="noopener noreferrer"
             className="footer-contact-link"
           >
-            linkedin.com/in/waris-rawa-41959a216<span>→</span>
+            linkedin.com/in/waris-rawa<span>→</span>
           </a>
         </div>
       </div>

@@ -103,13 +103,84 @@
   margin-top: clamp(1rem, 2.5vh, 1.75rem);
 }
 
-/* ---- "GET IN TOUCH" CTA — absolute, bottom left ---- */
+/* ---- HEADLINE — subdued tagline, part of the composition ---- */
 
-.hero-cta-touch {
+.hero-headline {
+  font-family: var(--font-body);
+  font-size: clamp(0.8125rem, 1.4vw, 1.0625rem);
+  font-weight: 400;
+  color: rgba(242, 240, 237, 0.42);
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  margin: clamp(0.65rem, 1.6vh, 1.15rem) 0 0;
+  max-width: 36ch;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.7);
+}
+
+/* ---- METRICS STRIP — understated, wraps on mobile ---- */
+
+.hero-metrics {
+  list-style: none;
+  margin: clamp(1rem, 2.2vh, 1.6rem) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.4rem clamp(0.9rem, 2vw, 1.6rem);
+}
+
+.hero-metric {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  position: relative;
+}
+
+/* thin divider between items (not before the first) */
+.hero-metric:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * clamp(0.45rem, 1vw, 0.8rem));
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 1px;
+  background: rgba(242, 240, 237, 0.16);
+}
+
+.hero-metric-value {
+  font-family: var(--font-display);
+  font-size: clamp(0.8125rem, 1.3vw, 1.0625rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: rgba(242, 240, 237, 0.78);
+}
+
+.hero-metric-label {
+  font-family: var(--font-body);
+  font-size: clamp(0.625rem, 1vw, 0.75rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(242, 240, 237, 0.34);
+}
+
+/* ---- CTA GROUP — absolute, bottom left ---- */
+
+.hero-cta-group {
   position: absolute;
   bottom: 2.5rem;
   left: clamp(1.25rem, 5vw, 3rem);
   z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  opacity: 0; /* animated in via GSAP */
+}
+
+/* ---- "GET IN TOUCH" / "RESUME" CTAs ---- */
+
+.hero-cta-touch {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -125,7 +196,6 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: color 0.3s, border-color 0.3s, gap 0.3s, background 0.3s;
-  opacity: 0;
 }
 
 .hero-cta-touch:hover {
@@ -133,7 +203,13 @@
   border-color: rgba(242, 240, 237, 0.55);
   background: rgba(8, 8, 8, 0.75);
   gap: 0.875rem;
-  opacity: 1;
+}
+
+.hero-cta-touch:focus-visible {
+  outline: none;
+  color: #F2F0ED;
+  border-color: rgba(242, 240, 237, 0.7);
+  box-shadow: 0 0 0 2px rgba(242, 240, 237, 0.35);
 }
 
 /* ---- LOCATION TAG — absolute, bottom right ---- */
@@ -183,7 +259,8 @@
   .hero-name { font-size: clamp(1.875rem, 7vw, 3rem); white-space: normal; }
   .hero-role { font-size: clamp(0.875rem, 3.5vw, 1.25rem); }
   .hero-text-block { width: 92vw; }
-  .hero-cta-touch { bottom: 1.75rem; left: 1.25rem; font-size: 0.75rem; }
+  .hero-cta-group { bottom: 1.75rem; left: 1.25rem; gap: 0.5rem; }
+  .hero-cta-touch { font-size: 0.75rem; padding: 0.5rem 0.95rem; }
   .hero-location-tag { display: none; }
   .hero-dots { bottom: 2rem; }
 }

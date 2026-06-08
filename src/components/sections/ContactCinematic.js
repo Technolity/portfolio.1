@@ -32,7 +32,7 @@ const ContactCinematic = () => {
     },
     {
       href: profile.linkedin,
-      label: 'linkedin.com/in/waris-rawa-41959a216',
+      label: 'linkedin.com/in/waris-rawa',
       title: 'LinkedIn',
       external: true,
       icon: (

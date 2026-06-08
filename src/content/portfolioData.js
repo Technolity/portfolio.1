@@ -1,20 +1,31 @@
 export const profile = {
   name: 'Waris Rawa',
   brand: 'Technolity',
-  role: 'Full-stack engineer with a backend focus',
+  role: 'Full-Stack & AI Systems Engineer — Backend & Automation',
+  headline: 'I build production software that moves real revenue.',
   summary:
-    'Building production-grade SaaS platforms, API orchestration layers, and AI-integrated systems.',
+    'Backend & AI engineer building production SaaS, AI-agent pipelines, CRM automation, and revenue-driving web apps.',
   location: 'Sopore, Jammu & Kashmir, India',
   email: 'warisrawa145@gmail.com',
-  linkedin: 'https://linkedin.com/in/waris-rawa-41959a216',
+  phone: '+91-8493064813',
+  linkedin: 'https://linkedin.com/in/waris-rawa',
   github: 'https://github.com/technolity',
-  resume: '/Waris_Rawa.pdf',
+  website: 'https://portfoliowaris.vercel.app',
+  resume: '/Waris_Rawa_Resume.pdf',
 };
 
 export const heroHighlights = [
   'Multi-tenant SaaS',
   'OAuth + webhooks',
   'AI automation pipelines',
+];
+
+export const heroMetrics = [
+  { value: '$M+', label: 'revenue powered' },
+  { value: '17+', label: 'AI jobs/session' },
+  { value: '8–12h', label: 'onboarding cut' },
+  { value: '8,000+', label: 'customers' },
+  { value: '690+', label: 'commits' },
 ];
 
 export const services = [
@@ -55,174 +66,165 @@ export const services = [
 
 export const featuredProjects = [
   {
-    id: 'ai-marketing-automation',
-    title: 'AI Marketing Automation',
-    category: 'Production SaaS',
+    id: 'amazon-review-intelligence',
+    title: 'Amazon Review Intelligence',
+    category: 'Production AI SaaS',
     description:
-      'A multi-tenant marketing automation SaaS built end to end with agency onboarding, AI content generation, and resilient backend workflows.',
+      'Production AI SaaS that turns thousands of Amazon reviews into an interactive network graph of themes, keywords, and sentiment — with NLP sentiment analysis, bot detection, and multi-format export across 10+ marketplaces.',
     stack: [
+      'FastAPI',
+      'Python',
       'Next.js 14',
-      'Node.js',
-      'Supabase',
-      'PL/pgSQL',
-      'Clerk',
-      'Anthropic API',
-      'GoHighLevel API',
-      'n8n',
-      'Vitest',
+      'TypeScript',
+      'Sigma.js',
+      'Graphology',
+      'Recharts',
+      'VADER/TextBlob',
+      'Apify',
+      'Docker',
     ],
     highlights: [
-      'Sole developer on the TedOS backend and delivery pipeline.',
-      'Agency-level OAuth onboarding with token refresh and value mapping.',
-      '17+ AI asset-generation jobs with structured JSON parsing.',
-      '690+ commits and production deployment on Vercel.',
+      'NLP sentiment analysis across 10+ Amazon marketplaces.',
+      'Bot/fake-review detection with real-time analysis.',
+      'Multi-format export — CSV, PDF, Excel.',
+      'Dockerized with CI/CD.',
     ],
-    posterEyebrow: 'TedOS / Scalez Media',
-    posterMetric: '690+ commits shipped',
-    liveUrl: 'https://dev.tedos.ai',
-    repoUrl: 'https://github.com/Technolity/ai-marketing-automation',
+    posterEyebrow: 'Review Intelligence',
+    posterMetric: 'Reviews → network graph',
+    liveUrl: 'https://amazon-review-intelligence.vercel.app/',
+    repoUrl: 'https://github.com/Technolity/Amazon_V1',
   },
   {
     id: 'agriculture-advisory',
-    title: 'Agriculture Advisory',
-    category: 'Hackathon Build',
+    title: 'Agricultural Advisory App',
+    category: 'Mobile / Offline-First',
     description:
-      'An offline-capable crop disease detection system for smallholder farmers in Kashmir with backend, mobile, and sync architecture built together.',
+      'Offline-first mobile app for smallholder farmers: camera-based crop-disease detection, planting guides, live market prices, and a sync queue that works without internet. Multilingual (English / Urdu / Punjabi).',
     stack: [
+      'React Native',
+      'Expo',
+      'TypeScript',
+      'Redux Toolkit',
+      'SQLite',
       'Node.js',
       'Express',
-      'TypeScript',
       'Prisma',
       'PostgreSQL',
-      'Redis',
-      'React Native + Expo',
-      'SQLite',
     ],
     highlights: [
+      'Camera-based crop-disease detection.',
+      'Offline-first with a background sync queue.',
+      'Live market prices and planting guides.',
       'Built for Cursor Hackathon 2026.',
-      'Offline-to-online sync queue for data consistency.',
-      'REST API plus mobile and web architecture in one system.',
-      'Multilingual support across English, Urdu, and Punjabi.',
     ],
     posterEyebrow: 'Cursor Hackathon 2026',
-    posterMetric: 'Offline-first sync design',
+    posterMetric: 'Offline-first sync',
+    liveUrl: 'https://agriculture-advisory.vercel.app/',
     repoUrl: 'https://github.com/Technolity/agriculture-advisory',
+  },
+  {
+    id: 'stellar-spaces',
+    title: 'Stellar Spaces',
+    category: 'Web Experience',
+    description:
+      'Design-forward, animation-rich multi-page web experience with motion-driven interactions, smooth route transitions, and a fully responsive layout that showcases polished front-end craft.',
+    stack: ['React 19', 'Framer Motion', 'Tailwind CSS v4', 'Vite', 'React Router'],
+    highlights: [
+      'Motion-driven interactions throughout.',
+      'Smooth multi-page route transitions.',
+      'Fully responsive, mobile-first layout.',
+    ],
+    posterEyebrow: 'Motion-Driven UI',
+    posterMetric: 'Animation-rich experience',
+    liveUrl: 'https://stellar-spaces.netlify.app/',
+    repoUrl: 'https://github.com/Technolity/stellar_spaces',
   },
   {
     id: 'crypto-tracker',
     title: 'Crypto Tracker',
     category: 'Real-time Dashboard',
     description:
-      'A responsive crypto market dashboard with live data polling, historical charts, and a persistent watchlist.',
-    stack: ['React', 'JavaScript', 'CoinGecko API', 'Recharts'],
+      'Real-time cryptocurrency dashboard with live prices, interactive 7-day charts, multi-currency support (USD/EUR/GBP/INR), search, a persistent watchlist, and dark mode.',
+    stack: ['React', 'CoinGecko API', 'Recharts'],
     highlights: [
-      'Real-time market dashboard with clean dark UI.',
-      'Historical chart views and watchlist persistence.',
-      'Responsive layout for desktop and mobile browsing.',
+      'Live prices with interactive 7-day charts.',
+      'Multi-currency: USD / EUR / GBP / INR.',
+      'Persistent watchlist + search + dark mode.',
     ],
-    image: '/images/project2.png',
     posterEyebrow: 'Market Data UI',
-    posterMetric: 'Live polling + charts',
+    posterMetric: 'Live prices + charts',
     liveUrl: 'https://crypto-tracker-indol-alpha.vercel.app/',
     repoUrl: 'https://github.com/Technolity/Crypto-Tracker',
-  },
-  {
-    id: 'amazon-review-intelligence',
-    title: 'Amazon Review Intelligence',
-    category: 'Analytics Platform',
-    description:
-      'An analytics workflow for turning Amazon reviews into sentiment signals, keyword clusters, and actionable product insights.',
-    stack: ['Python', 'TypeScript', 'Apify'],
-    highlights: [
-      'Sentiment analysis, keyword extraction, and emotion detection.',
-      'Real-time review insight generation with clear visual outputs.',
-      'Focused on turning raw review volume into usable product feedback.',
-    ],
-    posterEyebrow: 'Review Analytics',
-    posterMetric: 'Insight extraction at scale',
-    liveUrl: 'https://amazon-review-intelligence.vercel.app/',
-    repoUrl: 'https://github.com/Technolity/amazon-review-intelligence',
   },
 ];
 
 export const stackGroups = [
   {
+    title: 'AI & LLMs',
+    description:
+      'Production AI integrations where outputs are structured, traceable, and useful inside a real workflow.',
+    skills: [
+      'Anthropic Claude API',
+      'OpenAI API',
+      'AI agent workflows',
+      'RAG',
+      'Structured output parsing',
+      'LLM orchestration',
+    ],
+  },
+  {
     title: 'Backend & API',
     description:
       'The systems work I spend most of my time in when products need durable integrations and clean service boundaries.',
     skills: [
+      'FastAPI',
       'Node.js',
-      'Next.js API Routes',
-      'Express.js',
-      'REST API design',
+      'Express',
+      'REST',
       'OAuth 2.0',
       'Webhooks',
-      'Microservice patterns',
+      'Microservices',
       'Async queues',
-      'Prisma ORM',
+      'Prisma',
     ],
   },
   {
-    title: 'Frontend & Product',
+    title: 'Automation & CRM',
     description:
-      'Delivery-focused UI work with modern React stacks and enough polish to ship public-facing product surfaces cleanly.',
+      'Workflow tooling that connects CRM, email, and ad systems into reliable end-to-end pipelines.',
+    skills: ['GoHighLevel API', 'n8n', 'Make.com', 'Pabbly', 'Zapier'],
+  },
+  {
+    title: 'Languages & Data',
+    description:
+      'The languages and data layers behind the products, with practical schema and persistence choices.',
     skills: [
-      'React 18',
-      'Next.js 14',
-      'React Native + Expo',
-      'Tailwind CSS',
-      'Framer Motion',
-      'Redux Toolkit',
-      'Recharts',
+      'Python',
       'TypeScript',
-    ],
-  },
-  {
-    title: 'Data & Storage',
-    description:
-      'Database-backed applications with practical schema design, caching, and persistence choices based on the product shape.',
-    skills: [
+      'JavaScript',
+      'Go',
+      'SQL',
+      'PL/pgSQL',
       'PostgreSQL',
-      'MySQL',
       'Supabase',
+      'MySQL',
       'Redis',
       'SQLite',
-      'Airtable',
-      'PL/pgSQL',
-      'NoSQL patterns',
     ],
   },
   {
-    title: 'AI & Automation',
+    title: 'Frontend & Infra',
     description:
-      'Production-minded AI integrations where outputs are structured, traceable, and useful inside a real workflow.',
+      'Delivery-focused UI work and the deployment tooling that keeps it shipping cleanly to production.',
     skills: [
-      'Anthropic Claude API',
-      'OpenAI API',
-      'Prompt engineering',
-      'Structured output parsing',
-      'LLM orchestration',
-      'n8n',
-      'Make.com',
-      'GoHighLevel API',
-      'Pabbly',
-    ],
-  },
-  {
-    title: 'Testing & Delivery',
-    description:
-      'The supporting tooling that keeps integration-heavy projects stable enough to iterate on without guesswork.',
-    skills: [
-      'Vitest',
-      'Jest',
-      'Postman',
-      'ESLint',
-      'Git',
-      'GitHub Actions',
+      'React',
+      'Next.js',
+      'React Native + Expo',
+      'Tailwind',
+      'AWS',
       'Vercel',
-      'Render',
-      'Linux / Ubuntu',
-      'Docker (basics)',
+      'Docker',
+      'Git / GitHub Actions',
     ],
   },
 ];
@@ -239,15 +241,26 @@ export const experiences = [
   {
     period: '2024 - Present',
     title: 'Lead Backend Developer',
-    company: 'TedOS · Scalez Media AI Marketing Automation SaaS',
+    company: 'TedOS · Scalez Media',
     summary:
-      'Owned the backend architecture and product delivery for a multi-tenant marketing automation SaaS, from schema design through deployment.',
+      'Sole developer on a multi-tenant AI marketing SaaS, from schema design through production deployment.',
     achievements: [
-      'Architected the full backend in Next.js 14 and Node.js, including data model design, database schema decisions, API orchestration, and Vercel deployment.',
-      'Implemented agency-level GoHighLevel OAuth 2.0 flows for sub-account provisioning, permission scoping, refresh cycles, and custom value mapping.',
-      'Designed a microservice-style pipeline that ingests 20 structured intake fields and triggers 17+ AI generation jobs for sales, email, VSL, and funnel assets.',
-      'Integrated Supabase with row-level security for multi-org tenancy and Clerk for session management, including PL/pgSQL migrations as requirements evolved.',
-      'Added fallback automation flows, structured logging, retry logic, and Vitest coverage across critical backend modules.',
+      'Built agency-level GoHighLevel OAuth 2.0 onboarding that cut 8–12 hours of manual setup per client.',
+      'Designed a pipeline that turns 20 structured intake fields into 17+ Claude AI generation jobs for sales, email, VSL, and funnel assets.',
+      'Implemented Postgres row-level security for multi-org tenancy with n8n / Pabbly fallback automations.',
+      'Shipped 690+ commits with structured logging, retries, and test coverage across critical backend modules.',
+    ],
+  },
+  {
+    period: '2025 - Present',
+    title: 'Full-Stack & SEO',
+    company: 'MOON Naturally Yours',
+    summary:
+      'Premium, mobile-first Next.js storefront for a Kashmiri D2C brand with full structured-data SEO and WhatsApp commerce.',
+    achievements: [
+      'Built a premium mobile-first Next.js storefront with full structured-data SEO.',
+      'Integrated WhatsApp commerce as the primary checkout path.',
+      'Scaled the brand to 1,200+ orders, 8,000+ customers, and a 4.9★ rating.',
     ],
   },
   {
@@ -255,15 +268,15 @@ export const experiences = [
     title: 'Backend & Automation Developer',
     company: 'Scalez Media Growth & Automation Agency',
     summary:
-      'Built automation-heavy backend flows connecting CRM, email, and ad systems across active client pipelines.',
+      'Automation-heavy backend flows connecting CRM, email, and ad systems across active client pipelines.',
     achievements: [
-      'Developed server-side automation workflows across CRM platforms, email providers, and ad networks using REST APIs and webhook event handling.',
-      'Integrated Anthropic Claude and OpenAI APIs into content pipelines with prompt templates and structured JSON parsers for downstream services.',
-      'Built lead ingestion, deduplication, and enrichment modules that reduced pipeline errors across multiple client accounts.',
+      'Built Claude + OpenAI content pipelines with prompt templates and structured JSON parsers.',
+      'Developed lead ingestion, deduplication, and enrichment modules across client accounts.',
+      'Automated CRM, email, and ad-network workflows via REST APIs and webhooks.',
     ],
   },
   {
-    period: '2023 - 2024',
+    period: '2022 - 2024',
     title: 'Full-Stack Developer (Freelance)',
     company: 'Independent Web & SaaS Projects',
     summary:
@@ -276,8 +289,8 @@ export const experiences = [
 ];
 
 export const aboutParagraphs = [
-  'I work best on products where the hard part is not the landing page, but the system underneath it: auth, orchestration, state, data models, and the edge cases that appear when real users start depending on it.',
-  'Most of my recent work has been in SaaS backends, automation-heavy workflows, and AI-assisted product systems. I care about getting the core architecture right early so iteration later stays fast instead of fragile.',
+  'Backend & AI engineer. Sole architect of TedOS, a multi-tenant AI marketing SaaS powering millions in revenue for its founder, and builder of MOON, an SEO-led D2C storefront that scaled a Kashmiri brand to 1,200+ orders and 8,000+ customers.',
+  'I turn a non-technical founder\'s "I wish my business just ran itself" into working systems — FastAPI / Node backends, OAuth integrations, LLM agent pipelines, CRM automation, and revenue-ready frontends.',
   'Alongside shipping products, I am pursuing a B.Sc. in Computer Science at the University of Kashmir, strengthening the fundamentals behind the production work.',
 ];
 

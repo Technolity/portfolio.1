@@ -91,7 +91,7 @@ const Navbar = () => {
             </li>
           ))}
           <li className="navbar-menu-resume">
-            <a href={profile.resume} download onClick={() => setIsMobileMenuOpen(false)}>
+            <a href={profile.resume} target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>
               Resume ↓
             </a>
           </li>

@@ -124,6 +124,30 @@ export const featuredProjects = [
     repoUrl: 'https://github.com/Technolity/Amazon_V1',
   },
   {
+    id: 'moon-naturally-yours',
+    title: 'MOON Naturally Yours',
+    category: 'D2C E-commerce',
+    description:
+      'Premium, mobile-first Next.js storefront for a Kashmiri D2C brand — full structured-data SEO and WhatsApp commerce that scaled the brand to 1,200+ orders and 8,000+ customers at a 4.9★ rating.',
+    stack: [
+      'Next.js',
+      'React',
+      'Structured-data SEO',
+      'WhatsApp Commerce',
+      'Tailwind CSS',
+      'Vercel',
+    ],
+    highlights: [
+      'Premium mobile-first storefront with full structured-data SEO.',
+      'WhatsApp commerce as the primary checkout path.',
+      '1,200+ orders, 8,000+ customers, 4.9★ rating.',
+    ],
+    posterEyebrow: 'D2C Storefront',
+    posterMetric: '1,200+ orders · 8,000+ customers',
+    liveUrl: 'https://moonnaturallyyours.com',
+    repoUrl: 'https://github.com/technolity/moon',
+  },
+  {
     id: 'agriculture-advisory',
     title: 'Agricultural Advisory App',
     category: 'Mobile / Offline-First',

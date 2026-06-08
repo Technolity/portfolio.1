@@ -10,6 +10,7 @@ export const profile = {
   phone: '+91-8493064813',
   linkedin: 'https://linkedin.com/in/waris-rawa',
   github: 'https://github.com/technolity',
+  x: 'https://x.com/technolity_',
   website: 'https://portfoliowaris.vercel.app',
   resume: '/Waris_Rawa_Resume.pdf',
 };
@@ -65,6 +66,34 @@ export const services = [
 ];
 
 export const featuredProjects = [
+  {
+    id: 'ai-marketing-automation',
+    title: 'TedOS — AI Marketing Automation',
+    category: 'Flagship · Production SaaS',
+    description:
+      'Multi-tenant AI marketing SaaS I architected and built end to end — agency OAuth onboarding, a 20-field intake pipeline that fires 17+ Claude AI generation jobs, and resilient backend workflows powering millions in revenue for its founder.',
+    stack: [
+      'Next.js 14',
+      'Node.js',
+      'Supabase',
+      'PL/pgSQL',
+      'Clerk',
+      'Anthropic API',
+      'GoHighLevel API',
+      'n8n',
+      'Vitest',
+    ],
+    highlights: [
+      'Sole developer on the TedOS backend and delivery pipeline.',
+      'Agency-level GoHighLevel OAuth 2.0 onboarding with token refresh.',
+      '20 intake fields → 17+ Claude AI jobs with structured JSON parsing.',
+      '690+ commits, Postgres RLS multi-tenancy, deployed on Vercel.',
+    ],
+    posterEyebrow: 'TedOS / Scalez Media',
+    posterMetric: '$M+ revenue · 690+ commits',
+    liveUrl: 'https://dev.tedos.ai',
+    repoUrl: 'https://github.com/Technolity/ai-marketing-automation',
+  },
   {
     id: 'amazon-review-intelligence',
     title: 'Amazon Review Intelligence',

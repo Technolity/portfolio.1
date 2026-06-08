@@ -25,12 +25,20 @@ const RepelText = ({ children, as: Tag = 'span', className, style }) => {
   const charRefs     = useRef([]);
   const instanceRef  = useRef(null);
 
-  const chars = useMemo(() => {
-    return flattenChildren(children).split('');
+  /* Split into tokens, keeping whitespace runs as their own tokens. Words are
+     rendered as unbreakable inline-block groups so the browser only breaks at
+     the real spaces BETWEEN words — never mid-word (e.g. "Ba | ckend"). Each
+     non-space character still gets its own ref for the repel effect. */
+  const tokens = useMemo(() => {
+    return flattenChildren(children).split(/(\s+)/).filter((t) => t !== '');
   }, [children]);
 
-  /* Keep ref array in sync with current chars length */
-  charRefs.current = charRefs.current.slice(0, chars.length);
+  /* Keep ref array in sync with current (non-space) char count */
+  const charCount = useMemo(
+    () => tokens.reduce((n, t) => (/^\s+$/.test(t) ? n : n + t.length), 0),
+    [tokens]
+  );
+  charRefs.current = charRefs.current.slice(0, charCount);
 
   /* Create / destroy the managed instance */
   useEffect(() => {
@@ -49,18 +57,35 @@ const RepelText = ({ children, as: Tag = 'span', className, style }) => {
     inst.setChars(charRefs.current.filter(Boolean));
   });
 
+  let charIndex = 0;
   return (
     <Tag ref={containerRef} className={className} style={style}>
-      {chars.map((char, i) => (
-        <span
-          key={i}
-          ref={(el) => { charRefs.current[i] = el; }}
-          style={{ display: 'inline-block' }}
-          aria-hidden={char === ' ' ? 'true' : undefined}
-        >
-          {char === ' ' ? '\u00A0' : char}
-        </span>
-      ))}
+      {tokens.map((token, ti) => {
+        /* Whitespace run -> a single real space: the only place a line may break */
+        if (/^\s+$/.test(token)) {
+          return ' ';
+        }
+        /* Word -> unbreakable group of per-char spans */
+        return (
+          <span
+            key={ti}
+            style={{ display: 'inline-block', whiteSpace: 'nowrap' }}
+          >
+            {token.split('').map((char) => {
+              const idx = charIndex++;
+              return (
+                <span
+                  key={idx}
+                  ref={(el) => { charRefs.current[idx] = el; }}
+                  style={{ display: 'inline-block' }}
+                >
+                  {char}
+                </span>
+              );
+            })}
+          </span>
+        );
+      })}
     </Tag>
   );
 };

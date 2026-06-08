@@ -19,6 +19,12 @@ const IconGitHub = () => (
   </svg>
 );
 
+const IconX = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+);
+
 const IconPDF = () => (
   <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15h8v1.5H8V15zm0-3h8v1.5H8V12zm0-3h5v1.5H8V9z"/>
@@ -137,6 +143,9 @@ const FooterCinematic = () => {
           </a>
           <a href={profile.github} target="_blank" rel="noopener noreferrer">
             <IconGitHub /> GitHub
+          </a>
+          <a href={profile.x} target="_blank" rel="noopener noreferrer">
+            <IconX /> X
           </a>
           <a href={profile.resume} download>
             <IconPDF /> Resume

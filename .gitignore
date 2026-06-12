@@ -35,3 +35,9 @@ Thumbs.db
 implementation_templates.md
 raviklaassens_analysis.md
 page_architecture.md
+# Graphify
+.graphify*
+graphify-out/
+
+# MCP
+.mcp.json

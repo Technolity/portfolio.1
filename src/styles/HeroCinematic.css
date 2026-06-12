@@ -23,16 +23,9 @@
   gap: clamp(1.5rem, 3.5vh, 3rem);
 }
 
-/* ---- CANVAS (ink animation, behind everything) ---- */
-
-.hero-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  display: block;
-}
+/* ---- 3D SCENE LAYER ----
+   Positioned by .hero-scene in HeroScene.css (absolute inset 0,
+   z-index 1, pointer-events none). Figure/text sit above it. */
 
 /* ---- CENTRAL FIGURE — flex item, always centered ---- */
 
@@ -109,7 +102,7 @@
   font-family: var(--font-body);
   font-size: clamp(0.8125rem, 1.4vw, 1.0625rem);
   font-weight: 400;
-  color: rgba(242, 240, 237, 0.42);
+  color: rgba(242, 240, 237, 0.56); /* ≥4.5:1 on #080808 */
   line-height: 1.45;
   letter-spacing: 0.01em;
   margin: clamp(0.65rem, 1.6vh, 1.15rem) 0 0;

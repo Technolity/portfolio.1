@@ -58,7 +58,7 @@ const WhatIBuildCinematic = () => {
       <div className="container">
         <div className="section-header-cinematic">
           <span className="section-number">01</span>
-          <h2 className="section-title-cinematic">What I Build</h2>
+          <RepelText as="h2" className="section-title-cinematic">What I Build</RepelText>
           <div className="section-line" />
         </div>
 
@@ -75,7 +75,7 @@ const WhatIBuildCinematic = () => {
                 <RepelText as="p" className="panel-description">{service.description}</RepelText>
                 <ul className="panel-points">
                   {service.points.map((point) => (
-                    <li key={point}>{point}</li>
+                    <RepelText as="li" key={point}>{point}</RepelText>
                   ))}
                 </ul>
                 <div className="panel-tech">

@@ -1,0 +1,263 @@
+/* ============================================================
+   PROJECT INTRO POSTER — Remotion-style looping intro frame
+   Brand colors arrive via CSS vars set by the component:
+   --pi-bg  --pi-accent  --pi-accent-2  --pi-soft
+   ============================================================ */
+
+.project-intro-poster {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 40%, var(--pi-soft) 0%, transparent 60%),
+    var(--pi-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: box-shadow var(--t-med);
+}
+
+.project-intro-poster.is-hot {
+  box-shadow: inset 0 0 0 1px var(--pi-soft);
+}
+
+/* fine grid texture */
+.project-intro-poster::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+/* ---- motif canvas ---- */
+.pi-motif {
+  position: absolute;
+  inset: 8% 4% 22% 4%;
+  width: 92%;
+  height: 70%;
+  opacity: 0.9;
+}
+
+.pi-draw {
+  stroke: var(--pi-accent);
+  opacity: 0.75;
+}
+
+.pi-draw.pi-faint {
+  stroke: rgba(242, 240, 237, 0.22);
+}
+
+.pi-node {
+  fill: rgba(20, 20, 20, 0.92);
+  stroke: rgba(255, 255, 255, 0.16);
+  stroke-width: 1;
+}
+
+.pi-node-edge {
+  fill: var(--pi-accent);
+}
+
+.pi-node-label {
+  fill: rgba(242, 240, 237, 0.78);
+  font-family: 'Consolas', 'SF Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.pi-dot {
+  fill: rgba(242, 240, 237, 0.55);
+}
+
+.pi-dot-accent {
+  fill: var(--pi-accent);
+}
+
+.pi-bar {
+  fill: var(--pi-accent);
+  opacity: 0.65;
+}
+
+.pi-packet {
+  fill: var(--pi-accent-2);
+  filter: drop-shadow(0 0 4px var(--pi-accent-2));
+}
+
+.pi-particle {
+  fill: var(--pi-accent);
+}
+
+.pi-arrowhead {
+  stroke: var(--pi-accent);
+}
+
+.pi-arrow-path {
+  opacity: 0.6;
+}
+
+.pi-wick {
+  stroke: var(--pi-accent);
+}
+
+.pi-wick-down {
+  stroke: var(--pi-accent-2);
+}
+
+.pi-candle {
+  fill: var(--pi-accent);
+  opacity: 0.85;
+}
+
+.pi-candle-down {
+  fill: var(--pi-accent-2);
+  opacity: 0.7;
+}
+
+.pi-ticker {
+  fill: rgba(242, 240, 237, 0.5);
+  font-family: 'Consolas', 'SF Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+.pi-ticker-b {
+  fill: rgba(242, 240, 237, 0.34);
+}
+
+/* ---- copy block ---- */
+.pi-copy {
+  position: relative;
+  z-index: 2;
+  padding: clamp(1.2rem, 3vw, 2.4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+.pi-eyebrow {
+  font-family: 'Consolas', 'SF Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--pi-accent);
+}
+
+.pi-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.pi-rule {
+  width: 120px;
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--pi-accent), transparent);
+  transform-origin: left center;
+}
+
+.pi-tagline {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--color-text-2);
+  max-width: 38ch;
+}
+
+/* ---- metric chip ---- */
+.pi-metric {
+  position: absolute;
+  z-index: 2;
+  top: clamp(1rem, 2.5vw, 2rem);
+  right: clamp(1rem, 2.5vw, 2rem);
+  text-align: right;
+}
+
+.pi-metric-value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+  font-weight: 800;
+  color: var(--pi-accent);
+}
+
+.pi-metric-label {
+  font-family: 'Consolas', 'SF Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-text-2);
+}
+
+/* ---- vignette ---- */
+.pi-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+}
+
+/* ---- network motif (review graph) ---- */
+.pi-draw.pi-bridge {
+  stroke: var(--pi-accent);
+  opacity: 0.38;
+}
+
+.pi-draw.pi-ring {
+  stroke: rgba(242, 240, 237, 0.26);
+}
+
+.pi-bar-down {
+  fill: var(--pi-accent-2);
+}
+
+/* the review-graph poster has no accent-2, so pin its negative bar red */
+.pi-motif-network .pi-bar-down {
+  fill: #E0312F;
+  opacity: 0.7;
+}
+
+/* ---- pipeline motif ---- */
+.pi-node-sub {
+  fill: rgba(242, 240, 237, 0.42);
+  font-family: 'Consolas', 'SF Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.08em;
+}
+
+.pi-node-edge-alt {
+  fill: rgba(242, 240, 237, 0.38);
+}
+
+.pi-tick {
+  stroke: var(--pi-accent);
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* MOON gets luxury serif-feel treatment via weight contrast */
+.pi-motif-moon .pi-title {
+  font-weight: 500;
+  letter-spacing: 0.28em;
+}
+
+.pi-motif-moon .pi-tagline {
+  font-style: italic;
+}
+
+@media (max-width: 1023px) {
+  .pi-motif {
+    inset: 4% 2% 30% 2%;
+    height: 62%;
+  }
+
+  .pi-title {
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+  }
+}

@@ -7,6 +7,7 @@ import Navbar from './components/UI/Navbar';
 import SnakeCursor from './components/UI/SnakeCursor';
 import HeroCinematic from './components/sections/HeroCinematic';
 import WhatIBuildCinematic from './components/sections/WhatIBuildCinematic';
+import AutomationFlowCinematic from './components/sections/AutomationFlowCinematic';
 import FeaturedProjectsCinematic from './components/sections/FeaturedProjectsCinematic';
 import TechStackCinematic from './components/sections/TechStackCinematic';
 import ExperienceCinematic from './components/sections/ExperienceCinematic';
@@ -57,6 +58,7 @@ function App() {
       <main>
         <HeroCinematic />
         <WhatIBuildCinematic />
+        <AutomationFlowCinematic />
         <FeaturedProjectsCinematic />
         <TechStackCinematic />
         <ExperienceCinematic />

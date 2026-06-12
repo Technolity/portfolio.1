@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import '../../styles/FooterCinematic.css';
 import { profile } from '../../content/portfolioData';
+import RepelText from '../UI/RepelText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -132,29 +133,29 @@ const FooterCinematic = () => {
       {/* TOP BAR */}
       <div className="footer-top" ref={topRef}>
         <div className="footer-info">
-          <span className="footer-label">Currently based in</span>
-          <span className="footer-tagline">{profile.location}</span>
-          <span className="footer-availability">Available for freelance &amp; contract work</span>
+          <RepelText as="span" className="footer-label">Currently based in</RepelText>
+          <RepelText as="span" className="footer-tagline">{profile.location}</RepelText>
+          <RepelText as="span" className="footer-availability">Available for freelance &amp; contract work</RepelText>
         </div>
 
         <div className="footer-links">
           <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">
-            <IconLinkedIn /> LinkedIn
+            <IconLinkedIn /> <RepelText>LinkedIn</RepelText>
           </a>
           <a href={profile.github} target="_blank" rel="noopener noreferrer">
-            <IconGitHub /> GitHub
+            <IconGitHub /> <RepelText>GitHub</RepelText>
           </a>
           <a href={profile.x} target="_blank" rel="noopener noreferrer">
-            <IconX /> X
+            <IconX /> <RepelText>X</RepelText>
           </a>
           <a href={profile.resume} download>
-            <IconPDF /> Resume
+            <IconPDF /> <RepelText>Resume</RepelText>
           </a>
         </div>
 
         <div className="footer-contact">
           <a href={`mailto:${profile.email}`} className="footer-contact-link">
-            {profile.email}<span>→</span>
+            <RepelText>{profile.email}</RepelText><span>→</span>
           </a>
           <a
             href={profile.linkedin}
@@ -162,7 +163,7 @@ const FooterCinematic = () => {
             rel="noopener noreferrer"
             className="footer-contact-link"
           >
-            linkedin.com/in/waris-rawa<span>→</span>
+            <RepelText>linkedin.com/in/waris-rawa</RepelText><span>→</span>
           </a>
         </div>
       </div>
@@ -179,8 +180,7 @@ const FooterCinematic = () => {
 
       {/* BOTTOM */}
       <div className="footer-bottom">
-        <span className="footer-copyright">© {year} Waris Rawa — Technolity</span>
-        <span className="footer-built">Built with React · Deployed on Vercel</span>
+        <RepelText as="span" className="footer-copyright">© {year} Waris Rawa — Technolity</RepelText>
       </div>
     </footer>
   );

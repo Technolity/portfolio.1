@@ -66,21 +66,23 @@ const ContactCinematic = () => {
     <section id="contact" className="section cinematic-section contact-section">
       <div className="container">
         <div className="section-header-cinematic">
-          <span className="section-number">06</span>
-          <h2 className="section-title-cinematic">Contact</h2>
+          <span className="section-number">07</span>
+          <RepelText as="h2" className="section-title-cinematic">Contact</RepelText>
           <div className="section-line" />
         </div>
 
         <div className="contact-content">
           <div className="contact-text">
             <h3 className="contact-tagline">
-              Open to backend-heavy<br />SaaS and automation work.
+              <RepelText>Open to backend-heavy</RepelText>
+              <br />
+              <RepelText>SaaS and automation work.</RepelText>
             </h3>
             <RepelText as="p" className="contact-description">
               If you are building a product that needs clean data models, dependable integrations,
               and fast iteration without backend chaos, I am available for freelance and contract work.
             </RepelText>
-            <span className="contact-location">{profile.location}</span>
+            <RepelText as="span" className="contact-location">{profile.location}</RepelText>
           </div>
 
           <div className="contact-methods">
@@ -102,8 +104,8 @@ const ContactCinematic = () => {
                   {item.icon}
                 </svg>
                 <div className="contact-link-copy">
-                  <strong>{item.title}</strong>
-                  <span>{item.label}</span>
+                  <RepelText as="strong">{item.title}</RepelText>
+                  <RepelText as="span">{item.label}</RepelText>
                 </div>
               </a>
             ))}

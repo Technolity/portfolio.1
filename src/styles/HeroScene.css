@@ -1,0 +1,205 @@
+/* ============================================================
+   HERO SCENE — 3D automation-graph canvas layer
+   Sits behind hero text; never intercepts pointer events.
+   ============================================================ */
+
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-scene canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* R3F mounts the canvas in its own div — keep it above the backdrop */
+.hero-scene > div {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================================
+   SERVER CATHEDRAL BACKDROP — layered under the constellation
+   ============================================================ */
+
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* L0 — optional AI-generated drop-in (/images/hero-backdrop.jpg)
+   Deep-atmosphere plate: screen blend lets only its highlights
+   breathe through the near-black, a bottom-heavy mask keeps the
+   headline zone pure dark, and exposure is pulled down so the
+   procedural layers stay in charge. */
+.hero-backdrop-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  filter: brightness(0.82) contrast(1.1) saturate(1.05);
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.85) 38%,
+    rgba(0, 0, 0, 0.35) 70%,
+    transparent 96%
+  );
+  mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.85) 38%,
+    rgba(0, 0, 0, 0.35) 70%,
+    transparent 96%
+  );
+}
+
+/* L1 — blueprint floor grid, drifting toward the viewer */
+.hero-grid {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -8%;
+  height: 55%;
+  perspective: 600px;
+  perspective-origin: 50% 0%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 45%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 45%);
+}
+
+.hero-grid-plane {
+  position: absolute;
+  inset: -100% 0 0 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: rotateX(62deg);
+  transform-origin: 50% 100%;
+  animation: hero-grid-drift 40s linear infinite;
+  will-change: background-position;
+}
+
+@keyframes hero-grid-drift {
+  from { background-position: 0 0; }
+  to   { background-position: 0 640px; }
+}
+
+/* L2 — monolith, center-right */
+.hero-monolith {
+  position: absolute;
+  right: 4%;
+  bottom: 0;
+  width: clamp(280px, 32vw, 520px);
+  height: 92%;
+}
+
+.hero-monolith-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.monolith-core {
+  animation: monolith-breathe 6s ease-in-out infinite;
+}
+
+@keyframes monolith-breathe {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+/* Specular sweep — a faint white sheen glides across the monolith
+   face every ~12s, like studio light catching black glass */
+.monolith-sweep {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: monolith-sweep 12s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes monolith-sweep {
+  0%   { transform: translateX(0) skewX(-12deg); opacity: 0; }
+  5%   { opacity: 1; }
+  20%  { transform: translateX(480px) skewX(-12deg); opacity: 0; }
+  100% { transform: translateX(480px) skewX(-12deg); opacity: 0; }
+}
+
+/* L3 — volumetric haze + vignette */
+.hero-haze {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+.hero-haze-red {
+  width: 60vw;
+  height: 46vh;
+  right: -12%;
+  bottom: -10%;
+  background: radial-gradient(ellipse at center, rgba(200, 16, 46, 0.05) 0%, transparent 70%);
+  animation: hero-haze-drift-a 26s ease-in-out infinite alternate;
+}
+
+.hero-haze-neutral {
+  width: 52vw;
+  height: 40vh;
+  left: -10%;
+  top: 8%;
+  background: radial-gradient(ellipse at center, rgba(242, 240, 237, 0.025) 0%, transparent 70%);
+  animation: hero-haze-drift-b 32s ease-in-out infinite alternate;
+}
+
+@keyframes hero-haze-drift-a {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-4%, -5%, 0); }
+}
+
+@keyframes hero-haze-drift-b {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(5%, 4%, 0); }
+}
+
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 70% 60% at 42% 44%,
+    transparent 32%,
+    rgba(8, 8, 8, 0.88) 78%,
+    #000 100%
+  );
+}
+
+/* Reduced motion — freeze every loop */
+.hero-backdrop.is-static .hero-grid-plane,
+.hero-backdrop.is-static .monolith-core,
+.hero-backdrop.is-static .hero-haze,
+.hero-backdrop.is-static .monolith-sweep {
+  animation: none;
+}
+
+.hero-backdrop.is-static .monolith-sweep {
+  opacity: 0; /* sweep simply never appears when motion is reduced */
+}
+
+@media (max-width: 768px) {
+  .hero-monolith {
+    right: -14%;
+    width: clamp(220px, 52vw, 320px);
+    opacity: 0.7;
+  }
+}

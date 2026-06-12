@@ -15,8 +15,8 @@ const AboutCinematic = () => {
     <section id="about" className="section cinematic-section">
       <div className="container">
         <div className="section-header-cinematic">
-          <span className="section-number">05</span>
-          <h2 className="section-title-cinematic">About</h2>
+          <span className="section-number">06</span>
+          <RepelText as="h2" className="section-title-cinematic">About</RepelText>
           <div className="section-line" />
         </div>
 
@@ -73,22 +73,22 @@ const AboutCinematic = () => {
 
           {/* RIGHT — principles + education */}
           <div className="about-principles">
-            <h3>How I Work</h3>
+            <RepelText as="h3">How I Work</RepelText>
             <ul>
               {principles.map((principle) => (
                 <li key={principle.title}>
-                  <strong>{principle.title}</strong>
-                  <span>{principle.description}</span>
+                  <RepelText as="strong">{principle.title}</RepelText>
+                  <RepelText as="span">{principle.description}</RepelText>
                 </li>
               ))}
             </ul>
 
             <div className="about-education">
-              <span className="about-education-label">Education</span>
-              <h4>{education.title}</h4>
-              <p>{education.institution}</p>
-              <span>{education.period}</span>
-              <p>{education.description}</p>
+              <RepelText as="span" className="about-education-label">Education</RepelText>
+              <RepelText as="h4">{education.title}</RepelText>
+              <RepelText as="p">{education.institution}</RepelText>
+              <RepelText as="span">{education.period}</RepelText>
+              <RepelText as="p">{education.description}</RepelText>
             </div>
           </div>
         </div>

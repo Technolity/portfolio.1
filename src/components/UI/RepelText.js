@@ -42,6 +42,7 @@ const RepelText = ({ children, as: Tag = 'span', className, style }) => {
 
   /* Create / destroy the managed instance */
   useEffect(() => {
+    if (!repelManager.enabled) return undefined;
     const inst = repelManager.createInstance();
     instanceRef.current = inst;
     return () => {
@@ -56,6 +57,16 @@ const RepelText = ({ children, as: Tag = 'span', className, style }) => {
     inst.setContainer(containerRef.current);
     inst.setChars(charRefs.current.filter(Boolean));
   });
+
+  /* Reduced motion / coarse pointer: render plain markup — no per-char
+     spans, no listeners, original children untouched. */
+  if (!repelManager.enabled) {
+    return (
+      <Tag className={className} style={style}>
+        {children}
+      </Tag>
+    );
+  }
 
   let charIndex = 0;
   return (

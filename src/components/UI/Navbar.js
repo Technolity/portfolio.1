@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../styles/Navbar.css';
 import { profile } from '../../content/portfolioData';
+import RepelText from './RepelText';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -12,7 +13,7 @@ const Navbar = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      const sections = ['home', 'what-i-build', 'projects', 'tech-stack', 'experience', 'about', 'contact'];
+      const sections = ['home', 'what-i-build', 'pipeline', 'projects', 'tech-stack', 'experience', 'about', 'contact'];
       const scrollPosition = window.scrollY + 180;
 
       for (const sectionId of sections) {
@@ -56,6 +57,7 @@ const Navbar = () => {
 
   const navItems = [
     { id: 'what-i-build', label: 'Services' },
+    { id: 'pipeline', label: 'Pipeline' },
     { id: 'projects', label: 'Projects' },
     { id: 'tech-stack', label: 'Stack' },
     { id: 'experience', label: 'Experience' },
@@ -86,13 +88,13 @@ const Navbar = () => {
                   scrollToSection(item.id);
                 }}
               >
-                {item.label}
+                <RepelText>{item.label}</RepelText>
               </a>
             </li>
           ))}
           <li className="navbar-menu-resume">
             <a href={profile.resume} target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>
-              Resume ↓
+              <RepelText>Resume ↓</RepelText>
             </a>
           </li>
         </ul>

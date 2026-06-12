@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import '../../styles/HeroCinematic.css';
 import { profile, heroMetrics } from '../../content/portfolioData';
 import RepelText from '../UI/RepelText';
+import HeroLinkTree from '../UI/HeroLinkTree';
 
 // 3D "living automation graph" — lazy-loaded so three.js stays out
 // of the initial bundle; Suspense fallback is null (dark bg shows).
@@ -55,6 +56,9 @@ const HeroCinematic = () => {
       <Suspense fallback={null}>
         <HeroScene />
       </Suspense>
+
+      {/* LINK TREE — left-side interactive circuit tree */}
+      <HeroLinkTree />
 
       {/* CENTRAL FIGURE — Technolity logo as the "person" */}
       <div className="hero-figure" ref={figureRef} aria-hidden="true">

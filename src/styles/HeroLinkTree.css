@@ -1,0 +1,137 @@
+/* ============================================================
+   HERO LINK TREE — left-side organic link tree
+   Container ignores the pointer; only the link nodes are live.
+   ============================================================ */
+
+.hero-link-tree {
+  position: absolute;
+  left: clamp(0.5rem, 3vw, 3rem);
+  /* lifted off the hero floor — the tree starts higher */
+  bottom: clamp(5.5rem, 14vh, 10rem);
+  z-index: 3; /* above scene layers (1-2), below text block (10) */
+  width: clamp(220px, 19vw, 330px);
+  height: min(62vh, 580px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-link-tree svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ---- structure ---- */
+.hlt-ground {
+  stroke: rgba(242, 240, 237, 0.12);
+  stroke-width: 1;
+}
+
+.hlt-trunk {
+  stroke: rgba(200, 16, 46, 0.62);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.hlt-stub {
+  stroke: rgba(200, 16, 46, 0.46);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  transition: stroke 0.3s;
+}
+
+.hlt-twig {
+  stroke: rgba(242, 240, 237, 0.12);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.hlt-route {
+  stroke: none;
+}
+
+/* ---- leaves ---- */
+.hlt-leaf {
+  fill: rgba(200, 16, 46, 0.55);
+  opacity: 0; /* sprouted in via GSAP */
+}
+
+.hlt-leaf-bright {
+  fill: rgba(224, 21, 53, 0.8);
+}
+
+.hlt-leaf-dim {
+  fill: rgba(242, 240, 237, 0.18);
+}
+
+/* ---- link nodes ---- */
+.hlt-link {
+  pointer-events: auto;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+}
+
+.hlt-node {
+  fill: #080808;
+  stroke: #C8102E;
+  stroke-width: 1.4;
+  opacity: 0; /* grown in via GSAP */
+  transition: fill 0.25s, stroke 0.25s;
+}
+
+.hlt-node-ring {
+  fill: none;
+  stroke: rgba(200, 16, 46, 0);
+  stroke-width: 1;
+  transition: stroke 0.3s;
+}
+
+.hlt-label {
+  fill: rgba(242, 240, 237, 0.55);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  opacity: 0; /* grown in via GSAP */
+  transition: fill 0.25s;
+}
+
+/* hover / focus: the limb lights up */
+.hlt-link:hover .hlt-node,
+.hlt-link:focus-visible .hlt-node {
+  fill: #C8102E;
+  stroke: #E01535;
+  filter: drop-shadow(0 0 6px rgba(224, 21, 53, 0.6));
+}
+
+.hlt-link:hover .hlt-node-ring,
+.hlt-link:focus-visible .hlt-node-ring {
+  stroke: rgba(224, 21, 53, 0.5);
+}
+
+.hlt-link:hover .hlt-label,
+.hlt-link:focus-visible .hlt-label {
+  fill: #F2F0ED;
+}
+
+.hlt-branch:hover .hlt-stub {
+  stroke: rgba(224, 21, 53, 0.85);
+}
+
+.hlt-branch:hover .hlt-leaf {
+  fill: rgba(224, 21, 53, 0.85);
+}
+
+/* ---- packets ---- */
+.hlt-packet {
+  fill: #E01535;
+  filter: drop-shadow(0 0 4px rgba(224, 21, 53, 0.7));
+}
+
+/* ---- responsive: the left rail only exists on wide screens ---- */
+@media (max-width: 1023px) {
+  .hero-link-tree {
+    display: none;
+  }
+}

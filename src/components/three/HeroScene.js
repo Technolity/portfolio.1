@@ -274,55 +274,6 @@ function AutomationGraph({ reducedMotion }) {
   );
 }
 
-/* ---------- drifting crimson ember (cheap "red light") ----------
-   A single additive sprite with a radial-gradient canvas texture
-   drifting slowly behind the graph — reads like a far-off red
-   source moving through smoke, at near-zero cost. */
-function EmberDrift({ reducedMotion }) {
-  const ref = useRef(null);
-
-  const texture = useMemo(() => {
-    const c = document.createElement('canvas');
-    c.width = 128;
-    c.height = 128;
-    const ctx = c.getContext('2d');
-    const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
-    g.addColorStop(0, 'rgba(200, 16, 46, 0.85)');
-    g.addColorStop(0.4, 'rgba(200, 16, 46, 0.22)');
-    g.addColorStop(1, 'rgba(200, 16, 46, 0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, 128, 128);
-    return new THREE.CanvasTexture(c);
-  }, []);
-
-  useEffect(() => () => texture.dispose(), [texture]);
-
-  useFrame((state) => {
-    if (reducedMotion || !ref.current) return;
-    const t = state.clock.elapsedTime;
-    ref.current.position.set(
-      Math.sin(t * 0.07) * 3.4,
-      Math.cos(t * 0.05) * 1.6 - 0.4,
-      -2.5
-    );
-    ref.current.material.opacity = 0.15 + Math.sin(t * 0.45) * 0.04;
-  });
-
-  return (
-    <sprite ref={ref} position={[2.2, -0.6, -2.5]} scale={[5.5, 5.5, 1]}>
-      <spriteMaterial
-        map={texture}
-        transparent
-        opacity={0.15}
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-        toneMapped={false}
-        fog={false}
-      />
-    </sprite>
-  );
-}
-
 /* ---------- camera breathing (~14s period, tiny amplitude) ---------- */
 function CameraBreath({ reducedMotion }) {
   useFrame((state) => {
@@ -361,7 +312,6 @@ const HeroScene = ({ className = '' }) => {
         frameloop={reducedMotion ? 'demand' : 'always'}
       >
         <fog attach="fog" args={['#080808', 5, 13.5]} />
-        <EmberDrift reducedMotion={reducedMotion} />
         <AutomationGraph reducedMotion={reducedMotion} />
         <CameraBreath reducedMotion={reducedMotion} />
       </Canvas>

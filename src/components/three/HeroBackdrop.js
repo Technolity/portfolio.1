@@ -32,12 +32,20 @@ const PADS = [
 ];
 
 /* AI-generated atmosphere plates (Gemini) — every plate that loads
-   joins the cinematic film; missing files are skipped silently. */
+   joins the cinematic film; missing files are skipped silently.
+   Ordered as one continuous journey down the server cathedral:
+   distant glow → walking in → passing slabs → macro seams →
+   arrival → monolith climax, then a dip to black and the loop
+   restarts at the far end of the hall. */
 const PLATE_SRCS = [
-  '/images/hero-backdrop.jpg',
-  '/images/hero-backdrop-2.jpg',
-  '/images/hero-backdrop-3.jpg',
-  '/images/hero-backdrop-4.jpg',
+  '/images/hero-backdrop-4.jpg', // establishing: foggy vanishing point
+  '/images/hero-backdrop.jpg',   // corridor, slabs both sides
+  '/images/hero-backdrop-5.jpg', // between the rows, seams brighter
+  '/images/hero-backdrop-3.jpg', // diagonal pass along a row
+  '/images/hero-backdrop-6.jpg', // close pass, slab fills half frame
+  '/images/hero-backdrop-7.jpg', // macro: crimson seams in black metal
+  '/images/hero-backdrop-8.jpg', // arrival: monolith, core glowing
+  '/images/hero-backdrop-2.jpg', // climax: monolith face, red core
 ];
 
 const HeroBackdrop = ({ reducedMotion }) => {
@@ -83,7 +91,7 @@ const HeroBackdrop = ({ reducedMotion }) => {
       return undefined;
     }
 
-    const HOLD = 9;
+    const HOLD = 7.5;
     const XFADE = 2.8;
     const ctx = gsap.context(() => {
       gsap.set(imgs, { opacity: 0 });
@@ -293,8 +301,6 @@ const HeroBackdrop = ({ reducedMotion }) => {
       </div>
 
       {/* L3: volumetric haze + vignette */}
-      <div className="hero-haze hero-haze-red" />
-      <div className="hero-haze hero-haze-neutral" />
       <div className="hero-vignette" />
     </div>
   );

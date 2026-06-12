@@ -148,41 +148,8 @@
   100% { transform: translateX(480px) skewX(-12deg); opacity: 0; }
 }
 
-/* L3 — volumetric haze + vignette */
-.hero-haze {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(2px);
-}
-
-.hero-haze-red {
-  width: 60vw;
-  height: 46vh;
-  right: -12%;
-  bottom: -10%;
-  background: radial-gradient(ellipse at center, rgba(200, 16, 46, 0.05) 0%, transparent 70%);
-  animation: hero-haze-drift-a 26s ease-in-out infinite alternate;
-}
-
-.hero-haze-neutral {
-  width: 52vw;
-  height: 40vh;
-  left: -10%;
-  top: 8%;
-  background: radial-gradient(ellipse at center, rgba(242, 240, 237, 0.025) 0%, transparent 70%);
-  animation: hero-haze-drift-b 32s ease-in-out infinite alternate;
-}
-
-@keyframes hero-haze-drift-a {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-4%, -5%, 0); }
-}
-
-@keyframes hero-haze-drift-b {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(5%, 4%, 0); }
-}
-
+/* L3 — vignette (haze blobs removed: they read as pulsating
+   gray circles over the plates) */
 .hero-vignette {
   position: absolute;
   inset: 0;
@@ -197,7 +164,6 @@
 /* Reduced motion — freeze every loop */
 .hero-backdrop.is-static .hero-grid-plane,
 .hero-backdrop.is-static .monolith-core,
-.hero-backdrop.is-static .hero-haze,
 .hero-backdrop.is-static .monolith-sweep {
   animation: none;
 }

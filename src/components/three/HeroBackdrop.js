@@ -31,28 +31,78 @@ const PADS = [
   [300, 230],
 ];
 
+/* AI-generated atmosphere plates (Gemini) — every plate that loads
+   joins the cinematic film; missing files are skipped silently. */
+const PLATE_SRCS = [
+  '/images/hero-backdrop.jpg',
+  '/images/hero-backdrop-2.jpg',
+  '/images/hero-backdrop-3.jpg',
+  '/images/hero-backdrop-4.jpg',
+];
+
 const HeroBackdrop = ({ reducedMotion }) => {
   const rootRef = useRef(null);
   const svgRef = useRef(null);
   const monolithRef = useRef(null);
   const tracesRef = useRef(null);
+  const filmRef = useRef(null);
   const dotTweensRef = useRef([]);
-  const [bgImageOk, setBgImageOk] = useState(false);
+  const [plates, setPlates] = useState([]);
 
-  /* ---------- OVERRIDE HOOK: AI-generated backdrop drop-in ----------
-     Probe /images/hero-backdrop.jpg; mount only if it loads,
-     silently skip on 404. Drop a generated image into /public/images
-     to deepen the scene without touching code. */
+  /* ---------- Probe the plates; keep the ones that exist ---------- */
   useEffect(() => {
-    const img = new Image();
-    img.onload = () => setBgImageOk(true);
-    img.onerror = () => {}; // silent skip
-    img.src = '/images/hero-backdrop.jpg';
+    let alive = true;
+    Promise.all(
+      PLATE_SRCS.map(
+        (src) =>
+          new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(src);
+            img.onerror = () => resolve(null);
+            img.src = src;
+          })
+      )
+    ).then((results) => {
+      if (alive) setPlates(results.filter(Boolean));
+    });
     return () => {
-      img.onload = null;
-      img.onerror = null;
+      alive = false;
     };
   }, []);
+
+  /* ---------- CINEMATIC FILM: slow crossfades + ken-burns drift ----------
+     Each plate fades in (2.8s), drifts scale 1.03 → 1.10 while held (~9s),
+     then dissolves into the next; the cycle dips to black between loops. */
+  useEffect(() => {
+    const film = filmRef.current;
+    if (!film || plates.length === 0) return undefined;
+    const imgs = Array.from(film.querySelectorAll('img'));
+
+    if (reducedMotion || imgs.length === 1) {
+      gsap.set(imgs[0], { opacity: 1, scale: 1.04 });
+      return undefined;
+    }
+
+    const HOLD = 9;
+    const XFADE = 2.8;
+    const ctx = gsap.context(() => {
+      gsap.set(imgs, { opacity: 0 });
+      const tl = gsap.timeline({ repeat: -1 });
+      imgs.forEach((img, i) => {
+        const at = i * HOLD;
+        tl.to(img, { opacity: 1, duration: XFADE, ease: 'power1.inOut' }, at);
+        tl.fromTo(
+          img,
+          { scale: 1.03 },
+          { scale: 1.1, duration: HOLD + XFADE, ease: 'none' },
+          at
+        );
+        tl.to(img, { opacity: 0, duration: XFADE, ease: 'power1.inOut' }, at + HOLD);
+      });
+    }, film);
+
+    return () => ctx.revert();
+  }, [plates, reducedMotion]);
 
   /* ---------- SIGNAL DOTS travelling along the traces ---------- */
   useEffect(() => {
@@ -143,14 +193,13 @@ const HeroBackdrop = ({ reducedMotion }) => {
       className={`hero-backdrop${reducedMotion ? ' is-static' : ''}`}
       aria-hidden="true"
     >
-      {/* L0 (optional): AI-generated backdrop drop-in slot */}
-      {bgImageOk && (
-        <img
-          src="/images/hero-backdrop.jpg"
-          alt=""
-          className="hero-backdrop-img"
-          draggable="false"
-        />
+      {/* L0: AI-generated atmosphere film — slow cinematic dissolves */}
+      {plates.length > 0 && (
+        <div className="hero-backdrop-film" ref={filmRef}>
+          {plates.map((src) => (
+            <img key={src} src={src} alt="" draggable="false" />
+          ))}
+        </div>
       )}
 
       {/* L1: blueprint floor grid, drifting toward the viewer */}

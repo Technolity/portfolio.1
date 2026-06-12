@@ -37,18 +37,15 @@
   pointer-events: none;
 }
 
-/* L0 — optional AI-generated drop-in (/images/hero-backdrop.jpg)
-   Deep-atmosphere plate: screen blend lets only its highlights
-   breathe through the near-black, a bottom-heavy mask keeps the
-   headline zone pure dark, and exposure is pulled down so the
-   procedural layers stay in charge. */
-.hero-backdrop-img {
+/* L0 — AI-generated atmosphere FILM (Gemini plates)
+   Slow GSAP crossfades + ken-burns drift between plates.
+   Screen blend lets only highlights breathe through the near-black,
+   a bottom-heavy mask keeps the headline zone pure dark, and
+   exposure is pulled down so the procedural layers stay in charge. */
+.hero-backdrop-film {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.45;
+  opacity: 0.5;
   mix-blend-mode: screen;
   filter: brightness(0.82) contrast(1.1) saturate(1.05);
   -webkit-mask-image: linear-gradient(
@@ -66,6 +63,19 @@
     transparent 96%
   );
 }
+
+.hero-backdrop-film img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* Reduced motion: the film effect is frozen on the first plate
+   (GSAP sets it visible; no crossfade timeline runs) */
 
 /* L1 — blueprint floor grid, drifting toward the viewer */
 .hero-grid {

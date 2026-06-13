@@ -273,7 +273,10 @@ const AutomationFlowCinematic = () => {
       });
 
       /* ============================================================
-         MOBILE — no pin, simplified vertical flow, simple fades
+         MOBILE — vertical "run": each node card lifts in, then
+         executes (crimson glow pulse + success tick draws) as it
+         scrolls past, mirroring the desktop run-mode. No pin, no
+         continuous JS loops — packets are CSS-driven.
          ============================================================ */
       mm.add('(max-width: 767px) and (prefers-reduced-motion: no-preference)', () => {
         gsap.fromTo(
@@ -288,18 +291,45 @@ const AutomationFlowCinematic = () => {
           }
         );
 
-        section.querySelectorAll('.afc-mobile-node, .afc-mobile-connector').forEach((el) => {
-          gsap.fromTo(
-            el,
-            { opacity: 0, y: 14 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              ease: 'power3.out',
-              scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none reverse' },
-            }
+        /* Prime the execute states: ticks undrawn, status hidden */
+        const ticks = gsap.utils.toArray(section.querySelectorAll('.afc-mrun-tick-path'));
+        ticks.forEach((p) => {
+          const len = p.getTotalLength();
+          gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+        });
+        gsap.set(section.querySelectorAll('.afc-mrun-status'), { opacity: 0 });
+
+        const items = gsap.utils.toArray(section.querySelectorAll('.afc-mrun-item'));
+        items.forEach((item) => {
+          const card = item.querySelector('.afc-mrun-card');
+          const glow = item.querySelector('.afc-mrun-glow');
+          const marker = item.querySelector('.afc-mrun-marker');
+          const status = item.querySelector('.afc-mrun-status');
+          const tick = item.querySelector('.afc-mrun-tick-path');
+
+          const tl = gsap.timeline({
+            scrollTrigger: { trigger: item, start: 'top 86%', toggleActions: 'play none none reverse' },
+          });
+
+          tl.fromTo(
+            card,
+            { opacity: 0, y: 22 },
+            { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }
           );
+          if (marker) {
+            tl.fromTo(
+              marker,
+              { scale: 0.2, opacity: 0 },
+              { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(2.4)', transformOrigin: 'center' },
+              '<0.05'
+            );
+          }
+          /* execute: glow pulse */
+          tl.to(glow, { opacity: 1, duration: 0.18, ease: 'power2.out' }, '>-0.12')
+            .to(glow, { opacity: 0, duration: 0.5, ease: 'power2.inOut' });
+          /* success tick draws */
+          tl.to(status, { opacity: 1, duration: 0.16 }, '<-0.3')
+            .to(tick, { strokeDashoffset: 0, duration: 0.32, ease: 'power1.out' }, '<');
         });
 
         gsap.fromTo(
@@ -429,21 +459,61 @@ const AutomationFlowCinematic = () => {
           </svg>
         </div>
 
-        {/* ---- Mobile: simplified vertical flow ---- */}
+        {/* ---- Mobile: vertical "run" — same node language as the desktop
+               canvas (tinted badge, glow, success tick), threaded on a live
+               wire spine. display:none on desktop so it never touches the
+               pinned-canvas / horizontal-projects scroll. ---- */}
         <div className="afc-mobile-flow">
-          {orderedNodes.map((node, index) => (
-            <React.Fragment key={node.id}>
-              {index > 0 && <div className="afc-mobile-connector" />}
-              <div className="afc-mobile-node" data-type={node.type}>
-                <NodeIcon icon={node.icon} size={18} />
-                <div className="afc-mobile-copy">
-                  <span className="afc-mobile-label">{node.label}</span>
-                  <span className="afc-mobile-sub">{node.sublabel}</span>
-                </div>
-                <span className="afc-mobile-type">{node.type}</span>
-              </div>
-            </React.Fragment>
-          ))}
+          <ol className="afc-mrun">
+            {orderedNodes.map((node, index) => {
+              const tint = TYPE_TINTS[node.type] || TYPE_TINTS.data;
+              const isLast = index === orderedNodes.length - 1;
+              return (
+                <li
+                  className="afc-mrun-item"
+                  key={node.id}
+                  data-type={node.type}
+                  style={{ '--mtint': tint, '--i': index }}
+                >
+                  {/* left rail: spine line + node marker + travelling packet */}
+                  <div className="afc-mrun-rail" aria-hidden="true">
+                    <span className="afc-mrun-marker" />
+                    {!isLast && <span className="afc-mrun-packet" />}
+                  </div>
+
+                  {/* node card — mirrors the desktop .afc-node */}
+                  <div className="afc-mrun-card">
+                    <span className="afc-mrun-glow" aria-hidden="true" />
+                    <div className="afc-mrun-head">
+                      <span className="afc-mrun-badge">
+                        <NodeIcon icon={node.icon} size={18} />
+                      </span>
+                      <span className="afc-mrun-copy">
+                        <span className="afc-mrun-label">{node.label}</span>
+                        <span className="afc-mrun-sub">{node.sublabel}</span>
+                      </span>
+                      <svg
+                        className="afc-mrun-status"
+                        viewBox="0 0 18 18"
+                        width="18"
+                        height="18"
+                        aria-hidden="true"
+                      >
+                        <circle cx="9" cy="9" r="8" className="afc-mrun-tick-ring" />
+                        <path className="afc-mrun-tick-path" d="M5 9.2l2.4 2.5 5-5.6" />
+                      </svg>
+                    </div>
+                    <div className="afc-mrun-foot">
+                      <span className="afc-mrun-type">{node.type}</span>
+                      <span className="afc-mrun-step">
+                        {String(index + 1).padStart(2, '0')} / {String(orderedNodes.length).padStart(2, '0')}
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
         </div>
 
         {/* ---- Outcomes + caption ---- */}

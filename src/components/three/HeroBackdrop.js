@@ -48,12 +48,13 @@ const PLATE_SRCS = [
   '/images/hero-backdrop-2.jpg', // climax: monolith face, red core
 ];
 
-const HeroBackdrop = ({ reducedMotion }) => {
+const HeroBackdrop = ({ reducedMotion, inView = true }) => {
   const rootRef = useRef(null);
   const svgRef = useRef(null);
   const monolithRef = useRef(null);
   const tracesRef = useRef(null);
   const filmRef = useRef(null);
+  const filmTlRef = useRef(null);
   const dotTweensRef = useRef([]);
   const [plates, setPlates] = useState([]);
 
@@ -96,6 +97,7 @@ const HeroBackdrop = ({ reducedMotion }) => {
     const ctx = gsap.context(() => {
       gsap.set(imgs, { opacity: 0 });
       const tl = gsap.timeline({ repeat: -1 });
+      filmTlRef.current = tl;
       imgs.forEach((img, i) => {
         const at = i * HOLD;
         tl.to(img, { opacity: 1, duration: XFADE, ease: 'power1.inOut' }, at);
@@ -109,8 +111,24 @@ const HeroBackdrop = ({ reducedMotion }) => {
       });
     }, film);
 
-    return () => ctx.revert();
+    return () => {
+      filmTlRef.current = null;
+      ctx.revert();
+    };
   }, [plates, reducedMotion]);
+
+  /* ---------- Pause the heavy film + dot loops while off-screen.
+     The film layer (blend + filter + mask + ken-burns scale) is the
+     most expensive composite on the page; freezing it once the hero
+     leaves the viewport is invisible but keeps scrolling smooth. ---- */
+  useEffect(() => {
+    if (reducedMotion) return;
+    if (filmTlRef.current) {
+      if (inView) filmTlRef.current.play();
+      else filmTlRef.current.pause();
+    }
+    dotTweensRef.current.forEach((t) => (inView ? t.play() : t.pause()));
+  }, [inView, reducedMotion, plates]);
 
   /* ---------- SIGNAL DOTS travelling along the traces ---------- */
   useEffect(() => {

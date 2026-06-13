@@ -38,6 +38,27 @@ const Navbar = () => {
     return () => clearInterval(timer);
   }, []);
 
+  /* Mobile menu: lock body scroll while open, close on Escape, and
+     close automatically if the viewport grows to desktop. */
+  useEffect(() => {
+    if (isMobileMenuOpen) document.body.classList.add('nav-open');
+    else document.body.classList.remove('nav-open');
+
+    const onKey = (e) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    const onResize = () => {
+      if (window.innerWidth >= 1024) setIsMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('resize', onResize);
+      document.body.classList.remove('nav-open');
+    };
+  }, [isMobileMenuOpen]);
+
   const formatTime = (date) => {
     return date.toLocaleTimeString('en-US', {
       hour: '2-digit',
@@ -75,6 +96,7 @@ const Navbar = () => {
             className="navbar-logo-img"
             draggable="false"
           />
+          <span className="navbar-wordmark">{profile.brand}</span>
         </div>
 
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'open' : ''}`}>
@@ -107,7 +129,7 @@ const Navbar = () => {
         <button
           className={`navbar-toggle ${isMobileMenuOpen ? 'active' : ''}`}
           onClick={() => setIsMobileMenuOpen((open) => !open)}
-          aria-label="Toggle menu"
+          aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isMobileMenuOpen}
         >
           <span />
@@ -115,6 +137,13 @@ const Navbar = () => {
           <span />
         </button>
       </div>
+
+      {/* Tap-outside backdrop — closes the mobile menu */}
+      <div
+        className={`navbar-backdrop ${isMobileMenuOpen ? 'show' : ''}`}
+        onClick={() => setIsMobileMenuOpen(false)}
+        aria-hidden="true"
+      />
     </nav>
   );
 };

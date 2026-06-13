@@ -32,8 +32,31 @@
 .navbar-logo {
   display: flex;
   align-items: center;
+  gap: 0.85rem;
   cursor: pointer;
   flex-shrink: 0;
+}
+
+/* brushed-metal TECHNOLITY wordmark beside the emblem */
+.navbar-wordmark {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding-left: 0.1em; /* optical balance for the wide tracking */
+  background: linear-gradient(180deg, #d6d4d1 0%, #9a9997 48%, #6f6e6c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: rgba(242, 240, 237, 0.6);
+  user-select: none;
+  transition: filter var(--t-fast);
+}
+
+.navbar-logo:hover .navbar-wordmark {
+  filter: brightness(1.18);
 }
 
 .navbar-logo-img {
@@ -143,6 +166,10 @@
   background: none;
   border: none;
   flex-shrink: 0;
+  /* Sit ABOVE the sliding menu panel (z-index 999) and backdrop so the
+     X stays tappable to close — this is what was missing before. */
+  position: relative;
+  z-index: 1001;
 }
 
 .navbar-toggle span {
@@ -214,6 +241,37 @@
 
 @media (max-width: 767px) {
   .navbar-container { padding: 0 1.25rem; }
+  .navbar-wordmark { display: none; }
 }
 
 .clickable { cursor: pointer; }
+
+/* ---- MOBILE MENU BACKDROP + SCROLL LOCK ---- */
+
+.navbar-backdrop {
+  display: none;
+}
+
+body.nav-open {
+  overflow: hidden;
+}
+
+@media (max-width: 1023px) {
+  .navbar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 8, 8, 0.55);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--t-med) var(--ease-out);
+    z-index: 998; /* under the panel (999) + toggle (1001), over the page */
+  }
+
+  .navbar-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

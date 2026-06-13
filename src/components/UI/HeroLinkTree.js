@@ -68,10 +68,14 @@ const TWIGS = [
 /* Slender leaf shape; stem at local (0,0) so it flutters from the stem */
 const LEAF_D = 'M0 0 Q5 -4.5 11 -1.5 Q5.5 2.5 0 0';
 
-const HeroLinkTree = () => {
+const HeroLinkTree = ({ active = true }) => {
   const rootRef = useRef(null);
   const svgRef = useRef(null);
   const packetTweensRef = useRef([]);
+  const growthRef = useRef(null);
+  const lifeRef = useRef([]);
+  const activeRef = useRef(active);
+  const inViewRef = useRef(true);
 
   const links = {
     github: { href: profile.github, external: true },
@@ -113,8 +117,14 @@ const HeroLinkTree = () => {
         return;
       }
 
-      /* ---- GROWTH ---- */
-      const tl = gsap.timeline({ delay: 0.9 });
+      /* ---- GROWTH (paused; the in-view observer plays it forward on
+         enter and reverses it to "close" the tree when scrolling away) ---- */
+      const tl = gsap.timeline({ paused: true });
+      tl.timeScale(0.8); /* grow slowly while the hero settles in */
+      growthRef.current = tl;
+      /* the whole canopy scales up as it draws — the tree grows bigger */
+      tl.fromTo(canopy, { scale: 0.9, transformOrigin: '70px 700px' },
+        { scale: 1, duration: 2.0, ease: 'power2.out' }, 0);
       tl.fromTo(trunk, { strokeDashoffset: () => Number(trunk.dataset.len) },
         { strokeDashoffset: 0, duration: 1.7, ease: 'power2.inOut' }, 0);
       /* branches fork as the trunk passes them (email lowest → github crown) */
@@ -140,7 +150,7 @@ const HeroLinkTree = () => {
         { opacity: 1, x: 0, duration: 0.45, stagger: 0.14, ease: 'power3.out' }, 1.45);
 
       /* ---- LIFE: canopy sway + leaf flutter ---- */
-      gsap.to(canopy, {
+      const canopyTween = gsap.to(canopy, {
         rotation: 0.9,
         transformOrigin: '70px 700px',
         duration: 6.5,
@@ -149,7 +159,7 @@ const HeroLinkTree = () => {
         ease: 'sine.inOut',
         delay: 2.6,
       });
-      leaves.forEach((leaf, i) => {
+      const leafTweens = leaves.map((leaf, i) =>
         gsap.to(leaf, {
           rotation: `+=${6 + (i % 3) * 3}`,
           transformOrigin: '0% 50%',
@@ -158,8 +168,8 @@ const HeroLinkTree = () => {
           yoyo: true,
           ease: 'sine.inOut',
           delay: 2.2 + (i % 7) * 0.3,
-        });
-      });
+        })
+      );
 
       /* ---- SAP packets climbing root → tips ---- */
       packetTweensRef.current = packets.map((dot, i) => {
@@ -180,6 +190,10 @@ const HeroLinkTree = () => {
           },
         });
       });
+
+      /* The forever-looping "life" — played/paused by the in-view
+         observer alongside the growth timeline. */
+      lifeRef.current = [canopyTween, ...leafTweens, ...packetTweensRef.current];
     }, root);
 
     /* ---- Counter-parallax + click surge (mirrors the monolith) ---- */
@@ -208,16 +222,52 @@ const HeroLinkTree = () => {
       if (onMove) window.removeEventListener('mousemove', onMove);
       if (onClick) hero.removeEventListener('click', onClick);
       packetTweensRef.current = [];
+      growthRef.current = null;
+      lifeRef.current = [];
       ctx.revert();
     };
   }, []);
+
+  /* Grow the tree when the hero is in view; reverse the growth (the
+     tree "closes") and pause the life loops when the user scrolls
+     away — it regrows on the way back. */
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        const vis = entry.isIntersecting;
+        inViewRef.current = vis;
+        const growth = growthRef.current;
+        const go = vis && activeRef.current;
+        if (growth) {
+          if (go) growth.play();
+          else if (!vis) growth.reverse();
+        }
+        lifeRef.current.forEach((a) => a && (go ? a.play() : a.pause()));
+      },
+      { rootMargin: '0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  /* Hold the tree closed during the boot sequence; start the slow grow
+     only once the hero is live (and on screen). */
+  useEffect(() => {
+    activeRef.current = active;
+    if (active && inViewRef.current && growthRef.current) {
+      growthRef.current.play();
+      lifeRef.current.forEach((a) => a && a.play());
+    }
+  }, [active]);
 
   return (
     <div className="hero-link-tree" ref={rootRef}>
       <svg
         ref={svgRef}
-        viewBox="0 0 380 760"
-        preserveAspectRatio="xMinYMax meet"
+        viewBox="0 0 380 712"
+        preserveAspectRatio="xMidYMax meet"
         aria-label="Profile links"
       >
         <g className="hlt-canopy">

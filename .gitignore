@@ -41,3 +41,5 @@ graphify-out/
 
 # MCP
 .mcp.json
+skills-lock.json
+.agents

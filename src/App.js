@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { BootProvider } from './context/BootContext';
 import Navbar from './components/UI/Navbar';
 import SnakeCursor from './components/UI/SnakeCursor';
 import HeroCinematic from './components/sections/HeroCinematic';
@@ -21,6 +22,10 @@ import './styles/Navbar.css';
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
+  // Exposed so the boot sequence can pause/resume smooth scroll while
+  // the film loader is on screen.
+  const lenisRef = useRef(null);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1,
@@ -33,6 +38,7 @@ function App() {
       touchMultiplier: 2,
       infinite: false,
     });
+    lenisRef.current = lenis;
 
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -47,26 +53,29 @@ function App() {
       lenis.off('scroll', ScrollTrigger.update);
       lenis.destroy();
       gsap.ticker.remove(updateLenis);
+      lenisRef.current = null;
     };
   }, []);
 
   return (
-    <div className="cinematic-app">
-      <SnakeCursor />
-      <Navbar />
+    <BootProvider lenisRef={lenisRef}>
+      <div className="cinematic-app">
+        <SnakeCursor />
+        <Navbar />
 
-      <main>
-        <HeroCinematic />
-        <WhatIBuildCinematic />
-        <AutomationFlowCinematic />
-        <FeaturedProjectsCinematic />
-        <TechStackCinematic />
-        <ExperienceCinematic />
-        <AboutCinematic />
-        <ContactCinematic />
-        <FooterCinematic />
-      </main>
-    </div>
+        <main>
+          <HeroCinematic />
+          <WhatIBuildCinematic />
+          <AutomationFlowCinematic />
+          <FeaturedProjectsCinematic />
+          <TechStackCinematic />
+          <ExperienceCinematic />
+          <AboutCinematic />
+          <ContactCinematic />
+          <FooterCinematic />
+        </main>
+      </div>
+    </BootProvider>
   );
 }
 

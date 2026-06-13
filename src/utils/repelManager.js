@@ -25,16 +25,14 @@ const REPEL_FORCE  = 28;  // px — max push at distance 0
 
 const RELEASE_TRANSITION = 'transform 0.45s cubic-bezier(0.16,1,0.3,1)';
 
-/* Same gating idea used elsewhere in the site (TechStack magnetic
-   hover): no effect for reduced motion or touch-first devices. */
+/* Enabled whenever motion is allowed — on touch devices the snake
+   canvas drives the same `snakemove` event from finger movement, so
+   the repel effect works on mobile too. Only reduced-motion opts out. */
 const isEnabled = () => {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
     return false;
   }
-  return (
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
-    !window.matchMedia('(pointer: coarse)').matches
-  );
+  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 };
 
 class RepelInstance {

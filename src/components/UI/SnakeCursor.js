@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { isTouch } from '../../utils/deviceCapabilities';
 
 /* ============================================================
    GLOBAL SNAKE CURSOR
@@ -32,19 +33,31 @@ const SnakeCursor = () => {
     resize();
     window.addEventListener('resize', resize);
 
-    const onMouseMove = (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+    const touch = isTouch();
+
+    const setPointer = (x, y) => {
+      mouse.x = x;
+      mouse.y = y;
       if (!entered) {
         segs.forEach(s => { s.x = mouse.x; s.y = mouse.y; });
         entered = true;
       }
     };
 
-    document.addEventListener('mousemove', onMouseMove);
+    const onMouseMove = (e) => setPointer(e.clientX, e.clientY);
+    // Touch drives the same spring + snakemove event so the fixed
+    // canvas and the repel effect come alive on phones/tablets.
+    const onTouchMove = (e) => {
+      const t = e.touches[0];
+      if (t) setPointer(t.clientX, t.clientY);
+    };
 
-    // Hide native cursor globally
-    document.body.style.cursor = 'none';
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('touchstart', onTouchMove, { passive: true });
+    document.addEventListener('touchmove', onTouchMove, { passive: true });
+
+    // Hide native cursor only where there is one (not on touch screens)
+    if (!touch) document.body.style.cursor = 'none';
 
     const tick = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -108,6 +121,8 @@ const SnakeCursor = () => {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener('resize', resize);
       document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('touchstart', onTouchMove);
+      document.removeEventListener('touchmove', onTouchMove);
       document.body.style.cursor = '';
     };
   }, []);

@@ -107,72 +107,205 @@
   stroke-linejoin: round;
 }
 
-/* ---- MOBILE FLOW (vertical, simplified) ---- */
+/* ============================================================
+   MOBILE "RUN" — vertical reflow of the desktop n8n canvas.
+   Same node language (tinted badge, glow, success tick), threaded
+   on a live wire spine. Base display:none — only mounts visually
+   under the max-width:767px switch, so desktop's pinned canvas and
+   the horizontal-projects scroll are never affected.
+   ============================================================ */
 
 .afc-mobile-flow {
   display: none;
-  flex-direction: column;
-  align-items: stretch;
 }
 
-.afc-mobile-node {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 1rem 1.1rem;
+.afc-mrun {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.afc-mrun-item {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  column-gap: 14px;
+  padding-bottom: 22px;
+}
+
+.afc-mrun-item:last-child {
+  padding-bottom: 0;
+}
+
+/* ---- left rail: continuous spine + node marker + travelling packet ---- */
+
+.afc-mrun-rail {
+  position: relative;
+  width: 30px;
+}
+
+.afc-mrun-rail::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--mtint, var(--color-border-2)) 38%, transparent),
+    rgba(255, 255, 255, 0.05)
+  );
+}
+
+/* trim the spine so it threads marker-to-marker, not past the ends */
+.afc-mrun-item:first-child .afc-mrun-rail::before { top: 30px; }
+.afc-mrun-item:last-child .afc-mrun-rail::before { bottom: auto; height: 30px; }
+
+.afc-mrun-marker {
+  position: absolute;
+  left: calc(50% - 6.5px);
+  top: 24px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 2px solid var(--mtint, var(--color-border-2));
+  box-shadow: 0 0 0 4px var(--color-bg), 0 0 10px -1px var(--mtint, transparent);
+  z-index: 1;
+}
+
+.afc-mrun-packet {
+  position: absolute;
+  left: calc(50% - 2.5px);
+  top: 30px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-accent-2);
+  box-shadow: 0 0 9px 1px var(--color-accent-2);
+  opacity: 0;
+  animation: afc-mrun-flow 2.6s linear infinite;
+  animation-delay: calc(var(--i, 0) * 0.22s);
+  z-index: 2;
+}
+
+@keyframes afc-mrun-flow {
+  0%   { top: 30px; opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { top: calc(100% + 4px); opacity: 0; }
+}
+
+/* ---- node card — mirrors the desktop .afc-node ---- */
+
+.afc-mrun-card {
+  position: relative;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-left: 3px solid var(--afc-tint, var(--color-border-2));
-  border-radius: 2px;
+  border-left: 2.5px solid var(--mtint, var(--color-border-2));
+  border-radius: 12px;
+  padding: 0.9rem 1rem 0.75rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  overflow: hidden;
 }
 
-.afc-mobile-node[data-type='trigger'] { --afc-tint: #E01535; }
-.afc-mobile-node[data-type='ai'] { --afc-tint: #C8102E; }
-.afc-mobile-node[data-type='data'] { --afc-tint: #F2F0ED; }
-.afc-mobile-node[data-type='integration'] { --afc-tint: rgba(242, 240, 237, 0.45); }
-.afc-mobile-node[data-type='output'] { --afc-tint: #E01535; }
+.afc-mrun-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 0 1px var(--mtint, var(--color-accent)), 0 0 24px -2px rgba(224, 21, 53, 0.4);
+}
 
-.afc-mobile-node > svg {
+.afc-mrun-head {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.afc-mrun-badge {
   flex-shrink: 0;
-  color: var(--afc-tint, var(--color-text-2));
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--mtint, var(--color-text-2));
+  background: color-mix(in srgb, var(--mtint, #fff) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mtint, #fff) 26%, transparent);
 }
 
-.afc-mobile-copy {
+.afc-mrun-copy {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.12rem;
   min-width: 0;
+  flex: 1;
 }
 
-.afc-mobile-label {
+.afc-mrun-label {
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--color-text);
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
-.afc-mobile-sub {
-  font-size: 0.75rem;
+.afc-mrun-sub {
+  font-size: 0.76rem;
   color: var(--color-text-3);
   line-height: 1.4;
 }
 
-.afc-mobile-type {
-  margin-left: auto;
+.afc-mrun-status {
   flex-shrink: 0;
-  font-size: 0.55rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-text-3);
+  align-self: flex-start;
+  margin-top: 2px;
 }
 
-.afc-mobile-connector {
-  width: 1.5px;
-  height: 24px;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.16);
+.afc-mrun-tick-ring {
+  fill: var(--color-bg-alt);
+  stroke: rgba(255, 255, 255, 0.16);
+  stroke-width: 1;
+}
+
+.afc-mrun-tick-path {
+  fill: none;
+  stroke: var(--color-accent-2);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.afc-mrun-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.7rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.afc-mrun-type {
+  font-family: var(--font-body);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mtint, var(--color-text-3));
+  opacity: 0.85;
+}
+
+.afc-mrun-step {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-3);
 }
 
 /* ---- META: stat chips + caption ---- */
@@ -245,7 +378,7 @@
 
 @media (max-width: 767px) {
   .afc-canvas-wrap { display: none; }
-  .afc-mobile-flow { display: flex; }
+  .afc-mobile-flow { display: block; }
 
   .automation-flow-cinematic .section-header-cinematic {
     margin-bottom: 2rem;
@@ -264,4 +397,7 @@
    keep decorative packets hidden. */
 @media (prefers-reduced-motion: reduce) {
   .afc-packet { opacity: 0 !important; }
+  .afc-mrun-packet { display: none; }
+  .afc-mrun-status { opacity: 1 !important; }
+  .afc-mrun-tick-path { stroke-dashoffset: 0 !important; }
 }

@@ -1,0 +1,10 @@
+/* Liquid-name WebGL canvas — sized to its container, crisp on HiDPI.
+   pan-y keeps vertical page scrolling working while horizontal drags
+   still drive the flow on touch. */
+.liquid-name {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: pan-y;
+  cursor: crosshair;
+}

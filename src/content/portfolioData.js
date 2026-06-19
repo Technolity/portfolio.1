@@ -367,9 +367,9 @@ export const principles = [
 ];
 
 export const education = {
-  title: 'B.Sc. Computer Science',
+  title: 'B.Tech. Computer Science',
   institution: 'University of Kashmir',
-  period: '08/2024 - 11/2028',
+  period: '01/2020-08/2024',
   description:
     'Formal CS fundamentals in algorithms, data structures, operating systems, DBMS, and networking alongside active product development.',
 };

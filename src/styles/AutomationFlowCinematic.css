@@ -10,6 +10,12 @@
   overflow: hidden;
 }
 
+/* content rides above the atmosphere film layer (z 0) */
+.automation-flow-cinematic .container {
+  position: relative;
+  z-index: 1;
+}
+
 .automation-flow-cinematic .section-header-cinematic {
   margin-bottom: 2rem;
 }

@@ -14,6 +14,7 @@ body.boot-locked {
   z-index: 100000;
   background: #060608;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -52,6 +53,58 @@ body.boot-locked {
 .boot-ignite .boot-scanflash {
   animation: boot-flash 0.62s ease both;
 }
+
+/* Composed lockup wrapper — on mobile the stage stacks above the log
+   (a column); on desktop (≥768px) they sit side by side as one unit,
+   vertically centered, with the pair's width capped so it reads as a
+   single cinematic block rather than drifting apart. */
+.boot-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Assembly stage — the emblem pulls itself together from fragments
+   above the terminal log. Screen blending sinks the clip's black
+   frame into the loader background; only the metal shows. */
+.boot-stage {
+  position: relative;
+  z-index: 1;
+  width: clamp(240px, 38vh, 380px);
+  aspect-ratio: 1 / 1;
+  margin-bottom: clamp(0.5rem, 2vh, 1.5rem);
+  pointer-events: none;
+  /* faint crimson aura behind the assembling metal */
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(200, 16, 46, 0.08) 0%,
+    transparent 62%
+  );
+}
+
+/* Desktop: compose stage + log as a side-by-side lockup */
+@media (min-width: 768px) {
+  .boot-row {
+    flex-direction: row;
+    align-items: center;
+    gap: clamp(2rem, 4vw, 4rem);
+    max-width: min(1000px, 88vw);
+  }
+  .boot-stage {
+    flex: none;
+    width: clamp(280px, 40vh, 420px);
+    margin-bottom: 0; /* gap handles spacing in the row */
+  }
+}
+
+/* the assembled emblem flares as ignite() fires */
+.boot-ignite .boot-stage {
+  filter: brightness(2.1) saturate(1.15);
+  transition: filter 0.3s ease;
+}
 @keyframes boot-flash {
   0% { opacity: 0; }
   14% { opacity: 0.55; }
@@ -61,7 +114,9 @@ body.boot-locked {
 .boot-inner {
   position: relative;
   z-index: 1;
-  width: min(560px, 82vw);
+  width: min(560px, 86vw);
+  /* fixed height for all 6 log rows so the stage above never shifts */
+  min-height: 165px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
   font-size: 13.5px;
   line-height: 1.9;

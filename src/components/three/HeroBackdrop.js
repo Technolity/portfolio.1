@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { isMobile } from '../../utils/deviceCapabilities';
 
 /* ============================================================
    SERVER CATHEDRAL — layered cinematic backdrop
@@ -48,6 +49,12 @@ const PLATE_SRCS = [
   '/images/hero-backdrop-2.jpg', // climax: monolith face, red core
 ];
 
+/* Generated atmosphere loop (Higgsfield, animated from plate 8).
+   Desktop-only enhancement: if the file is missing or fails to load,
+   the plate crossfade above remains the film. Poster = source plate. */
+const ATMOS_VIDEO_SRC = '/videos/hero-atmosphere.mp4';
+const ATMOS_POSTER_SRC = '/images/hero-backdrop-8.jpg';
+
 const HeroBackdrop = ({ reducedMotion, inView = true }) => {
   const rootRef = useRef(null);
   const svgRef = useRef(null);
@@ -56,7 +63,12 @@ const HeroBackdrop = ({ reducedMotion, inView = true }) => {
   const filmRef = useRef(null);
   const filmTlRef = useRef(null);
   const dotTweensRef = useRef([]);
+  const videoRef = useRef(null);
   const [plates, setPlates] = useState([]);
+  /* Generated atmosphere video: desktop + motion-allowed only; falls
+     back to the plate crossfade if the file is absent or errors. */
+  const [videoOk, setVideoOk] = useState(false);
+  const wantVideo = !reducedMotion && !isMobile();
 
   /* ---------- Probe the plates; keep the ones that exist ---------- */
   useEffect(() => {
@@ -79,12 +91,29 @@ const HeroBackdrop = ({ reducedMotion, inView = true }) => {
     };
   }, []);
 
+  /* ---------- Probe the atmosphere video (HEAD; cheap, no download) ---------- */
+  useEffect(() => {
+    if (!wantVideo) return undefined;
+    let alive = true;
+    fetch(ATMOS_VIDEO_SRC, { method: 'HEAD' })
+      .then((res) => {
+        const type = res.headers.get('content-type') || '';
+        // dev servers answer 200 text/html for missing files — require video/*
+        if (alive && res.ok && type.startsWith('video')) setVideoOk(true);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [wantVideo]);
+
   /* ---------- CINEMATIC FILM: slow crossfades + ken-burns drift ----------
      Each plate fades in (2.8s), drifts scale 1.03 → 1.10 while held (~9s),
-     then dissolves into the next; the cycle dips to black between loops. */
+     then dissolves into the next; the cycle dips to black between loops.
+     Skipped entirely while the generated video is the film. */
   useEffect(() => {
     const film = filmRef.current;
-    if (!film || plates.length === 0) return undefined;
+    if (videoOk || !film || plates.length === 0) return undefined;
     const imgs = Array.from(film.querySelectorAll('img'));
 
     if (reducedMotion || imgs.length === 1) {
@@ -127,8 +156,13 @@ const HeroBackdrop = ({ reducedMotion, inView = true }) => {
       if (inView) filmTlRef.current.play();
       else filmTlRef.current.pause();
     }
+    const video = videoRef.current;
+    if (video) {
+      if (inView) video.play().catch(() => {});
+      else video.pause();
+    }
     dotTweensRef.current.forEach((t) => (inView ? t.play() : t.pause()));
-  }, [inView, reducedMotion, plates]);
+  }, [inView, reducedMotion, plates, videoOk]);
 
   /* ---------- SIGNAL DOTS travelling along the traces ---------- */
   useEffect(() => {
@@ -219,13 +253,30 @@ const HeroBackdrop = ({ reducedMotion, inView = true }) => {
       className={`hero-backdrop${reducedMotion ? ' is-static' : ''}`}
       aria-hidden="true"
     >
-      {/* L0: AI-generated atmosphere film — slow cinematic dissolves */}
-      {plates.length > 0 && (
-        <div className="hero-backdrop-film" ref={filmRef}>
-          {plates.map((src) => (
-            <img key={src} src={src} alt="" draggable="false" />
-          ))}
+      {/* L0: atmosphere film — generated video loop when available
+          (desktop, motion allowed), else slow plate dissolves */}
+      {videoOk ? (
+        <div className="hero-backdrop-film is-video">
+          <video
+            ref={videoRef}
+            src={ATMOS_VIDEO_SRC}
+            poster={ATMOS_POSTER_SRC}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            onError={() => setVideoOk(false)}
+          />
         </div>
+      ) : (
+        plates.length > 0 && (
+          <div className="hero-backdrop-film" ref={filmRef}>
+            {plates.map((src) => (
+              <img key={src} src={src} alt="" draggable="false" />
+            ))}
+          </div>
+        )
       )}
 
       {/* L1: blueprint floor grid, drifting toward the viewer */}

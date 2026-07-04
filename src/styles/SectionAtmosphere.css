@@ -1,0 +1,48 @@
+/* ============================================================
+   SECTION ATMOSPHERE — desaturated film layer behind a section,
+   framed like a projected plate: letterbox gradients top/bottom
+   + hairline corner ticks. The section's own content sits above.
+   ============================================================ */
+
+.section-atmosphere {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.section-atmosphere video,
+.section-atmosphere img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: var(--atmos-opacity, 0.2);
+  filter: saturate(0.65) brightness(0.8);
+  mix-blend-mode: screen;
+}
+
+/* letterbox: the section reads as a widescreen film frame */
+.section-atmosphere-frame {
+  position: absolute;
+  inset: 0;
+}
+.section-atmosphere-frame::before,
+.section-atmosphere-frame::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(48px, 9vh, 110px);
+  pointer-events: none;
+}
+.section-atmosphere-frame::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--color-bg, #080808), transparent);
+}
+.section-atmosphere-frame::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--color-bg, #080808), transparent);
+}

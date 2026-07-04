@@ -1,11 +1,13 @@
 import React, {
+  Suspense,
   createContext,
+  lazy,
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from 'react';
+import { isMobile } from '../utils/deviceCapabilities';
 import '../styles/BootLoader.css';
 
 /* ============================================================
@@ -32,6 +34,12 @@ const BOOT_LINES = [
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+/* The emblem assembles from its own 3D fragments while the log types —
+   same GLB + fragmenter as the hero's Logo3D (true object continuity,
+   no video, no background wash). Desktop-only: mobile keeps the clean
+   log-only boot and never downloads the three.js chunk. */
+const BootAssembly3D = lazy(() => import('../components/three/BootAssembly3D'));
+
 export function BootProvider({ children, lenisRef }) {
   const reduced =
     typeof window !== 'undefined' &&
@@ -43,6 +51,7 @@ export function BootProvider({ children, lenisRef }) {
   const [shown, setShown] = useState([]); // completed line indices
   const [cur, setCur] = useState(''); // partial current line
   const [replayN, setReplayN] = useState(0);
+  const want3dStage = !reduced && !isMobile();
 
   /* ---- the boot sequence ---- */
   useEffect(() => {
@@ -151,7 +160,15 @@ export function BootProvider({ children, lenisRef }) {
         >
           <div className="boot-scanflash" aria-hidden="true" />
           <div className="boot-grid" aria-hidden="true" />
-          <div className="boot-inner" aria-label="Boot sequence">
+          <div className="boot-row">
+            {want3dStage && (
+              <div className="boot-stage" aria-hidden="true">
+                <Suspense fallback={null}>
+                  <BootAssembly3D key={replayN} />
+                </Suspense>
+              </div>
+            )}
+            <div className="boot-inner" aria-label="Boot sequence">
             {shown.map((i) => {
               const L = BOOT_LINES[i];
               return (
@@ -182,6 +199,7 @@ export function BootProvider({ children, lenisRef }) {
                 <span className="boot-cursor" />
               </div>
             )}
+            </div>
           </div>
           <div className="boot-skip">click · esc to skip</div>
         </div>

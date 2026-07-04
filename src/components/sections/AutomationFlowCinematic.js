@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import '../../styles/AutomationFlowCinematic.css';
 import { automationWorkflow } from '../../content/portfolioData';
+import SectionAtmosphere from '../UI/SectionAtmosphere';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -358,6 +359,12 @@ const AutomationFlowCinematic = () => {
 
   return (
     <section id="pipeline" className="automation-flow-cinematic section" ref={sectionRef}>
+      {/* generated macro-seams loop — the film continues into this scene */}
+      <SectionAtmosphere
+        src="/videos/pipeline-atmosphere.mp4"
+        poster="/images/hero-backdrop-7.jpg"
+        opacity={0.16}
+      />
       <div className="container">
         <div className="afc-head">
           <div className="afc-eyebrow">{automationWorkflow.eyebrow}</div>
